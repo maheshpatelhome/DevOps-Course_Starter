@@ -10,11 +10,29 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <ul class="list-group mb-4">
-        {% for toDoItem in items %}
-          <li>{{ toDoItem.title}}</li>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for toDoItem in items %}
+          <tr>
+            <td>{{toDoItem.title}}</td>
+            <td >{{toDoItem.status}}</td>
+            <td>
+              <form method="POST" action="/completed">
+                <input type="hidden" name="itemId" value="{{toDoItem.id}}">
+                <button type="submit" class="btn btn-primary btn-sm float-right">Mark as complete</button>
+              </form>
+            </td>
+          </tr>
         {% endfor %}
-      </ul>
+        </tbody>
+      </table>
     </div>
   </div>
 
