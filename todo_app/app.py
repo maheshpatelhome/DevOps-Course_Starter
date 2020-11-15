@@ -2,17 +2,16 @@
 from flask import Flask, render_template, send_from_directory, request, redirect
 from todo_app.flask_config import Config
 from todo_app.data.session_items  import get_items, add_item, get_item, save_item
-from todo_app.trello_config import TrelloConfig
-
+from todo_app.trello import Trello
+from todo_app.trello_card import TrelloCard
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 @app.route('/')
 def index():
-    config = TrelloConfig()
-    print ('running app ' + config.trello_key + ' ' + config.trello_token) 
-    to_do_list = sorted(get_items(), key=lambda item: item["status"], reverse=True)
+    trello = Trello()
+    to_do_list = trello.get_todo_items() 
     return render_template('index.html', items=to_do_list)
 
 @app.route('/', methods=['POST'])
