@@ -11,7 +11,8 @@ class Trello:
         self.trello_token=os.getenv('API_TOKEN')
         self.board_name=os.getenv('BOARD_NAME')
         self.memberName=os.getenv('MEMBERS_NAME')
-        
+        self.to_do_list_name=os.getenv("TO_DO_LIST_NAME")
+
     def get_todo_items(self):
         todo_items=[]
         board_id=self.get_board_id()
@@ -58,3 +59,14 @@ class Trello:
             cards[item["id"]]=card
         
         return cards
+    
+    def add_item(self, title):
+        # need to check title doesnt have any dodgy code
+        board_id=self.get_board_id()
+        trelloLists=self.get_lists_for_board(board_id)
+        for list_id in trelloLists:
+            if (trelloLists[list_id] == self.to_do_list_name):
+                add_item_url = self.add_key_and_token("https://api.trello.com/1/cards?idList=" + list_id + "&name=" + title + "&")
+                requests.post(add_item_url)
+        return
+                
