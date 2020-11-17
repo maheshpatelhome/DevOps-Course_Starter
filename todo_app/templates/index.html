@@ -25,10 +25,7 @@
             <td >{{toDoItem.status}}</td>
             <td>
               {%if (toDoItem.status != "Done")%}
-              <form method="POST" action="/completed">
-                <input type="hidden" name="itemId" value="{{toDoItem.id}}">
-                <button type="submit" class="btn btn-primary btn-sm float-right">Mark as done</button>
-              </form>
+                <a href={{ url_for("complete_item", card_id=toDoItem.id)}} class="btn btn-info">Mark as done</a>
               {%endif%}
             </td>
           </tr>

@@ -20,13 +20,10 @@ def add_to_do_item():
     trello.add_item(request.form['todoTitle'])
     return redirect("/")
 
-@app.route('/completed', methods=['POST'])
-def mark_item_as_completed():
-    #item = get_item(request.form["itemId"])
-    #item["status"] = "Completed"
-    #save_item(item)
+@app.route('/complete_item/<card_id>')
+def complete_item(card_id):
     trello = Trello()
-    trello.mark_item_as_done(request.form["itemId"])
+    trello.mark_item_as_done(card_id)
     return redirect("/")
 
 if __name__ == '__main__':
