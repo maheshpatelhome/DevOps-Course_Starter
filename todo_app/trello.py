@@ -12,6 +12,7 @@ class Trello:
         self.board_name=os.getenv('BOARD_NAME')
         self.memberName=os.getenv('MEMBERS_NAME')
         self.to_do_list_name=os.getenv("TO_DO_LIST_NAME")
+        self.done_list_name=os.getenv("DONE_LIST_NAME")
 
     def get_todo_items(self):
         todo_items=[]
@@ -69,4 +70,17 @@ class Trello:
                 add_item_url = self.add_key_and_token("https://api.trello.com/1/cards?idList=" + list_id + "&name=" + title + "&")
                 requests.post(add_item_url)
         return
-                
+    
+    def mark_item_as_done(self, card_id):
+        done_list_id = ""
+        board_id=self.get_board_id()
+        trelloLists=self.get_lists_for_board(board_id)
+        for list_id in trelloLists:
+            if (trelloLists[list_id] == self.done_list_name):
+                done_list_id = list_id
+        
+        if (done_list_id != ""):
+            mark_as_done_url = self.add_key_and_token("https://api.trello.com/1/cards/" + card_id + "?idList=" + done_list_id + "&")
+            print (mark_as_done_url)
+            requests.put(mark_as_done_url)
+        return

@@ -22,9 +22,11 @@ def add_to_do_item():
 
 @app.route('/completed', methods=['POST'])
 def mark_item_as_completed():
-    item = get_item(request.form["itemId"])
-    item["status"] = "Completed"
-    save_item(item)
+    #item = get_item(request.form["itemId"])
+    #item["status"] = "Completed"
+    #save_item(item)
+    trello = Trello()
+    trello.mark_item_as_done(request.form["itemId"])
     return redirect("/")
 
 if __name__ == '__main__':

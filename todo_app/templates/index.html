@@ -24,10 +24,12 @@
             <td>{{toDoItem.title}}</td>
             <td >{{toDoItem.status}}</td>
             <td>
+              {%if (toDoItem.status != "Done")%}
               <form method="POST" action="/completed">
                 <input type="hidden" name="itemId" value="{{toDoItem.id}}">
-                <button type="submit" class="btn btn-primary btn-sm float-right">Mark as complete</button>
+                <button type="submit" class="btn btn-primary btn-sm float-right">Mark as done</button>
               </form>
+              {%endif%}
             </td>
           </tr>
         {% endfor %}
