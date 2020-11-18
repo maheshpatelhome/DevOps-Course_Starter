@@ -26,6 +26,8 @@
             <td>
               {%if (toDoItem.status != "Done")%}
                 <a href={{ url_for("complete_item", card_id=toDoItem.id)}} class="btn btn-info">Mark as done</a>
+              {%else%}
+                <a href={{ url_for("restart_item", card_id=toDoItem.id)}} class="btn btn-info">Restart</a>
               {%endif%}
             </td>
           </tr>

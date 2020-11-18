@@ -23,7 +23,13 @@ def add_to_do_item():
 @app.route('/complete_item/<card_id>')
 def complete_item(card_id):
     trello = Trello()
-    trello.mark_item_as_done(card_id)
+    trello.move_list(card_id, True)
+    return redirect("/")
+
+@app.route('/restart_item/<card_id>')
+def restart_item(card_id):
+    trello = Trello()
+    trello.move_list(card_id, False)
     return redirect("/")
 
 if __name__ == '__main__':

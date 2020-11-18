@@ -71,16 +71,18 @@ class Trello:
                 requests.post(add_item_url)
         return
     
-    def mark_item_as_done(self, card_id):
-        done_list_id = ""
+    def move_list(self, card_id, mark_as_done):
+        target_list_id = ""
         board_id=self.get_board_id()
         trelloLists=self.get_lists_for_board(board_id)
         for list_id in trelloLists:
-            if (trelloLists[list_id] == self.done_list_name):
-                done_list_id = list_id
-        
-        if (done_list_id != ""):
-            mark_as_done_url = self.add_key_and_token("https://api.trello.com/1/cards/" + card_id + "?idList=" + done_list_id + "&")
-            print (mark_as_done_url)
-            requests.put(mark_as_done_url)
+            if (mark_as_done):
+                if (trelloLists[list_id] == self.done_list_name):
+                    target_list_id = list_id
+            else:
+                if (trelloLists[list_id] == self.to_do_list_name):
+                    target_list_id = list_id
+        if (target_list_id != ""):
+            move_to_different_list_url = self.add_key_and_token("https://api.trello.com/1/cards/" + card_id + "?idList=" + target_list_id + "&")
+            requests.put(move_to_different_list_url)
         return
