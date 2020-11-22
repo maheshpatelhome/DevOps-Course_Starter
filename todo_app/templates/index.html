@@ -10,7 +10,7 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <table class="table">
+      <table class="table table-striped">
         <thead>
           <tr>
             <th>Title</th>
@@ -23,7 +23,7 @@
           <tr>
             <td>{{toDoItem.title}}</td>
             <td >{{toDoItem.status}}</td>
-            <td>
+            <td style="text-align: center;">
               {%if (toDoItem.status != "Done")%}
                 <a href={{ url_for("complete_item", card_id=toDoItem.id)}} class="btn btn-info">Mark as done</a>
               {%else%}
