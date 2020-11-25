@@ -32,5 +32,19 @@ def restart_item(card_id):
     trello.move_list(card_id, False)
     return redirect("/")
 
+@app.route('/sort_status/<in_order>')
+def sort_status(in_order):
+    print("sort status " + in_order)
+    trello = Trello()
+    to_do_list = trello.get_todo_items()
+    if in_order == "asc":
+        sorted_to_do_list = sorted(to_do_list, key=lambda card: card.status)
+    else:
+        sorted_to_do_list = sorted(to_do_list, key=lambda card: card.status, reverse=True) 
+    print("first item " + sorted_to_do_list[0].title)
+    return render_template('index.html', items=sorted_to_do_list)
+    #return redirect("/")
+
+
 if __name__ == '__main__':
     app.run()

@@ -14,7 +14,10 @@
         <thead>
           <tr>
             <th>Title</th>
-            <th>Status</th>
+            <th>Status &nbsp; &nbsp;
+              <a href={{ url_for("sort_status", in_order="asc")}}><i class="fa fa-arrow-up"></i></a>
+              <a href={{ url_for("sort_status", in_order="desc")}}><i class="fa fa-arrow-down"></i></a>
+            </th>
             <th></th>
           </tr>
         </thead>
