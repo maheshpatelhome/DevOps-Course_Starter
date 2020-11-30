@@ -10,7 +10,6 @@ class Trello:
         self.trello_key=os.getenv('API_KEY')
         self.trello_token=os.getenv('API_TOKEN')
         self.board_name=os.getenv('BOARD_NAME')
-        self.memberName=os.getenv('MEMBERS_NAME')
         self.to_do_list_name=os.getenv("TO_DO_LIST_NAME")
         self.done_list_name=os.getenv("DONE_LIST_NAME")
 
@@ -28,7 +27,7 @@ class Trello:
         return url + "key=" + self.trello_key + "&token=" + self.trello_token
 
     def get_board_id(self):
-        boards_url = self.add_key_and_token("https://api.trello.com/1/members/" + self.memberName + "/boards?")
+        boards_url = self.add_key_and_token("https://api.trello.com/1/members/me/boards?")
         request = requests.get(boards_url)
         response = request.json()
         
