@@ -50,3 +50,14 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+
+
+This application is dependent on Trello, an account for that will need to be set up
+Environment variables will need to be setup for:
+API_KEY
+API_TOKEN
+BOARD_NAME
+TO_DO_LIST_NAME
+DONE_LIST_NAME
+
