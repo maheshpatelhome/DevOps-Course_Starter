@@ -24,7 +24,6 @@ class Trello:
         return todo_items
         
     def add_key_and_token(self, url):   
-        #return url + "key=" + self.trello_key + "&token=" + self.trello_token
         return f"{url}key={self.trello_key}&token={self.trello_token}"
 
     def get_board_id(self):
