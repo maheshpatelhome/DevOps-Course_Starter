@@ -6,7 +6,7 @@ from todo_app.trello_card import TrelloCard
 class Trello:
 
     def __init__(self): 
-        load_dotenv()
+        #load_dotenv()
         self.trello_key=os.getenv('API_KEY')
         self.trello_token=os.getenv('API_TOKEN')
         self.board_name=os.getenv('BOARD_NAME')
