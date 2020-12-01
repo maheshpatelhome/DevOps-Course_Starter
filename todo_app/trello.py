@@ -61,13 +61,12 @@ class Trello:
         return cards
     
     def add_item(self, title):
-        # need to check title doesnt have any dodgy code
         board_id=self.get_board_id()
         trelloLists=self.get_lists_for_board(board_id)
         for list_id in trelloLists:
             if (trelloLists[list_id] == self.to_do_list_name):
-                add_item_url = self.add_key_and_token("https://api.trello.com/1/cards?idList=" + list_id + "&name=" + title + "&")
-                requests.post(add_item_url)
+                add_item_url = self.add_key_and_token("https://api.trello.com/1/cards?")
+                requests.post(add_item_url, params={"name" : title, "idList": list_id})
         return
     
     def move_list(self, card_id, mark_as_done):
