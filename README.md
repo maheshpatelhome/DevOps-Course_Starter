@@ -58,6 +58,6 @@ Environment variables will need to be setup for:
 API_KEY
 API_TOKEN
 BOARD_NAME
-TO_DO_LIST_NAME
-DONE_LIST_NAME
+TO_DO_LIST_ID
+DONE_LIST_ID
 

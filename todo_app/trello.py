@@ -6,12 +6,11 @@ from todo_app.trello_card import TrelloCard
 class Trello:
 
     def __init__(self): 
-        #load_dotenv()
         self.trello_key=os.getenv('API_KEY')
         self.trello_token=os.getenv('API_TOKEN')
         self.board_name=os.getenv('BOARD_NAME')
-        self.to_do_list_name=os.getenv("TO_DO_LIST_NAME")
-        self.done_list_name=os.getenv("DONE_LIST_NAME")
+        self.to_do_list_id=os.getenv("TO_DO_LIST_ID")
+        self.done_list_id=os.getenv("DONE_LIST_ID")
 
     def get_todo_items(self):
         todo_items=[]
@@ -61,25 +60,16 @@ class Trello:
         return cards
     
     def add_item(self, title):
-        board_id=self.get_board_id()
-        trelloLists=self.get_lists_for_board(board_id)
-        for list_id in trelloLists:
-            if (trelloLists[list_id] == self.to_do_list_name):
-                add_item_url = self.add_key_and_token("https://api.trello.com/1/cards?")
-                requests.post(add_item_url, params={"name" : title, "idList": list_id})
+        add_item_url = self.add_key_and_token("https://api.trello.com/1/cards?")
+        requests.post(add_item_url, params={"name" : title, "idList": self.to_do_list_id})
         return
     
     def move_list(self, card_id, mark_as_done):
         target_list_id = ""
-        board_id=self.get_board_id()
-        trelloLists=self.get_lists_for_board(board_id)
-        for list_id in trelloLists:
-            if (mark_as_done):
-                if (trelloLists[list_id] == self.done_list_name):
-                    target_list_id = list_id
-            else:
-                if (trelloLists[list_id] == self.to_do_list_name):
-                    target_list_id = list_id
+        if (mark_as_done):
+            target_list_id = self.done_list_id
+        else:
+            target_list_id = self.to_do_list_id
         if (target_list_id != ""):
             move_to_different_list_url = self.add_key_and_token("https://api.trello.com/1/cards/" + card_id + "?idList=" + target_list_id + "&")
             requests.put(move_to_different_list_url)
