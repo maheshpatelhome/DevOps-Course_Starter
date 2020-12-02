@@ -11,7 +11,8 @@ class Trello:
         self.board_name=os.getenv('BOARD_NAME')
         self.to_do_list_id=os.getenv("TO_DO_LIST_ID")
         self.done_list_id=os.getenv("DONE_LIST_ID")
-
+        self.doing_list_id=os.getenv("DOING_LIST_ID")
+    
     def get_todo_items(self):
         todo_items=[]
         board_id=self.get_board_id()
@@ -63,14 +64,20 @@ class Trello:
         add_item_url = self.add_key_and_token("https://api.trello.com/1/cards?")
         requests.post(add_item_url, params={"name" : title, "idList": self.to_do_list_id})
         return
+
+    def move_to_doing(self, card_id):
+        self.move__to_list(card_id, self.doing_list_id)
+        return
     
-    def move_list(self, card_id, mark_as_done):
-        target_list_id = ""
-        if (mark_as_done):
-            target_list_id = self.done_list_id
-        else:
-            target_list_id = self.to_do_list_id
-        if (target_list_id != ""):
-            move_to_different_list_url = self.add_key_and_token("https://api.trello.com/1/cards/" + card_id + "?idList=" + target_list_id + "&")
-            requests.put(move_to_different_list_url)
+    def move_to_done(self, card_id):
+        self.move__to_list(card_id, self.done_list_id)
+        return
+    
+    def move_to_todo(self, card_id):
+        self.move__to_list(card_id, self.to_do_list_id)
+        return
+
+    def move__to_list(self, card_id, list_id):
+        move_to_different_list_url = self.add_key_and_token("https://api.trello.com/1/cards/" + card_id + "?idList=" + list_id + "&")
+        requests.put(move_to_different_list_url)
         return

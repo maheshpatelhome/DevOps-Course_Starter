@@ -27,10 +27,15 @@
             <td>{{toDoItem.title}}</td>
             <td >{{toDoItem.status}}</td>
             <td style="text-align: center;">
-              {%if (toDoItem.status != "Done")%}
-                <a href={{ url_for("complete_item", card_id=toDoItem.id)}} class="btn btn-info">Mark as done</a>
+              {%if (toDoItem.status == "To Do")%}
+                <a href={{ url_for("doing_item", card_id=toDoItem.id)}} class="btn btn-info">Doing</a>
+                <a href={{ url_for("done_item", card_id=toDoItem.id)}} class="btn btn-info">Done</a>
+              {%elif (toDoItem.status == "Doing")%}  
+                <a href={{ url_for("todo_item", card_id=toDoItem.id)}} class="btn btn-info">To Do</a>
+                <a href={{ url_for("done_item", card_id=toDoItem.id)}} class="btn btn-info">Done</a>
               {%else%}
-                <a href={{ url_for("restart_item", card_id=toDoItem.id)}} class="btn btn-info">Restart</a>
+                <a href={{ url_for("todo_item", card_id=toDoItem.id)}} class="btn btn-info">To Do</a>
+                <a href={{ url_for("doing_item", card_id=toDoItem.id)}} class="btn btn-info">Doing</a>
               {%endif%}
             </td>
           </tr>

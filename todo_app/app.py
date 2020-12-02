@@ -20,16 +20,22 @@ def add_to_do_item():
     trello.add_item(request.form['todoTitle'])
     return redirect("/")
 
-@app.route('/complete_item/<card_id>')
-def complete_item(card_id):
+@app.route('/doing_item/<card_id>')
+def doing_item(card_id):
     trello = Trello()
-    trello.move_list(card_id, True)
+    trello.move_to_doing(card_id)
     return redirect("/")
 
-@app.route('/restart_item/<card_id>')
-def restart_item(card_id):
+@app.route('/todo_item/<card_id>')
+def todo_item(card_id):
     trello = Trello()
-    trello.move_list(card_id, False)
+    trello.move_to_todo(card_id)
+    return redirect("/")
+
+@app.route('/done_item/<card_id>')
+def done_item(card_id):
+    trello = Trello()
+    trello.move_to_done(card_id)
     return redirect("/")
 
 @app.route('/sort_status/<in_order>')
