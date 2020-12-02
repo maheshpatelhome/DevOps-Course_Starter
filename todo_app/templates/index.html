@@ -10,11 +10,38 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <ul class="list-group mb-4">
-        {% for toDoItem in items %}
-          <li>{{ toDoItem.title}}</li>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status &nbsp; &nbsp;
+              <a href={{ url_for("sort_status", in_order="asc")}}><i class="fa fa-arrow-up"></i></a>
+              <a href={{ url_for("sort_status", in_order="desc")}}><i class="fa fa-arrow-down"></i></a>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {%for toDoItem in items %}
+          <tr>
+            <td>{{toDoItem.title}}</td>
+            <td >{{toDoItem.status}}</td>
+            <td style="text-align: center;">
+              {%if (toDoItem.status == "To Do")%}
+                <a href={{ url_for("doing_item", card_id=toDoItem.id)}} class="btn btn-info">Doing</a>
+                <a href={{ url_for("done_item", card_id=toDoItem.id)}} class="btn btn-info">Done</a>
+              {%elif (toDoItem.status == "Doing")%}  
+                <a href={{ url_for("todo_item", card_id=toDoItem.id)}} class="btn btn-info">To Do</a>
+                <a href={{ url_for("done_item", card_id=toDoItem.id)}} class="btn btn-info">Done</a>
+              {%else%}
+                <a href={{ url_for("todo_item", card_id=toDoItem.id)}} class="btn btn-info">To Do</a>
+                <a href={{ url_for("doing_item", card_id=toDoItem.id)}} class="btn btn-info">Doing</a>
+              {%endif%}
+            </td>
+          </tr>
         {% endfor %}
-      </ul>
+        </tbody>
+      </table>
     </div>
   </div>
 
