@@ -4,6 +4,7 @@ from todo_app.flask_config import Config
 from todo_app.data.session_items  import add_item, get_item, save_item
 from todo_app.trello import Trello
 from todo_app.trello_card import TrelloCard
+from todo_app.todo_view_model import ToDoViewModel
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -11,8 +12,9 @@ app.config.from_object(Config)
 @app.route('/')
 def index():
     trello = Trello()
-    to_do_list = trello.get_todo_items() 
-    return render_template('index.html', items=to_do_list)
+    to_do_list = trello.get_todo_items()  
+    to_do_view_model = ToDoViewModel(to_do_list)
+    return render_template('index.html', view_model=to_do_view_model)
 
 @app.route('/', methods=['POST'])
 def add_to_do_item():
