@@ -55,7 +55,7 @@ class Trello:
         request = requests.get(cards_for_list_url)
         response = request.json()
         for item in response:
-            card = TrelloCard(list_name, list_id, item["id"], item["name"])
+            card = TrelloCard(list_name, list_id, item["id"], item["name"], item["dateLastActivity"])
             cards[item["id"]]=card
         
         return cards
