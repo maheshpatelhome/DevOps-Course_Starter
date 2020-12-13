@@ -1,10 +1,7 @@
 class ToDoViewModel:
     def __init__(self, items, recent_date):
         self._items = items
-        self.determine_done_items() 
-        self.determine_recent_done_items(recent_date)
-        self.determine_older_done_items(recent_date)
-        self.determine_show_all_done()
+        self.recent_date = recent_date 
 
     @property
     def items(self):
@@ -28,45 +25,29 @@ class ToDoViewModel:
 
     @property
     def done_items(self):
+        self.determine_done_items()
         return self._done_items
         
-    @property
-    def show_all_done(self):
-        return self._show_all_done
-    
-    @show_all_done.setter
-    def show_all_done(self, value):
-        self._show_all_done = value
-
     @property 
     def recent_done_items(self):
+        self.determine_done_items()
+        self._recent_items=[]
+        done_items = self._done_items
+        for item in done_items:
+            if (item.last_modified > self.recent_date):
+                self._recent_items.append(item)
         return self._recent_items
 
     @property
     def older_done_items(self):
-        return self._older_items
-
-    def determine_show_all_done(self):
-        done_items = self.done_items
-        if len(done_items) >= 5:
-            self._show_all_done = False
-        else:
-            self._show_all_done = True
-
-    def determine_older_done_items(self, date_to_show_from):
+        self.determine_done_items()
         self._older_items=[]
         done_items = self._done_items
         for item in done_items:
-            if (item.last_modified <= date_to_show_from):
+            if (item.last_modified <= self.recent_date):
                 self._older_items.append(item)
-    
-    def determine_recent_done_items(self, date_to_show_from):
-        self._recent_items=[]
-        done_items = self._done_items
-        for item in done_items:
-            if (item.last_modified > date_to_show_from):
-                self._recent_items.append(item)
-
+        return self._older_items
+        
     def determine_done_items(self):
         self._done_items=[]
         for item in self._items:
