@@ -6,11 +6,9 @@ from todo_app.trello import Trello
 from todo_app.todo_view_model import ToDoViewModel
 from datetime import date, timedelta
 
-
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
-
 
     @app.route('/')
     def index():
@@ -79,7 +77,6 @@ def create_app():
         to_do_view_model = ToDoViewModel(to_do_list, yesterday)
         to_do_view_model.show_all_done = False
         return render_template('index.html', view_model=to_do_view_model, show_all=False)
-    
     
     if __name__ == '__main__':
         app.run()

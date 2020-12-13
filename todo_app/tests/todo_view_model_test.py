@@ -14,7 +14,6 @@ def items_setup():
         TrelloCard("Done", 3, 6, "Done Item 6", "2020-12-01T00:00:00.000Z"),
         TrelloCard("Random, should only be returned by items", 4, 7, "Random Item 7", "2020-12-01T00:00:00.000Z")
     ]
-    
     return items
 
 @pytest.fixture
