@@ -1,11 +1,12 @@
 from dotenv import find_dotenv, load_dotenv
 import pytest
+import requests
+import pathlib
 from todo_app import app
 from todo_app.trello import Trello
 from todo_app.trello_card import TrelloCard
-
-#from Flask import json
-
+from flask import request, json
+import os
 
 @pytest.fixture
 def client():
@@ -20,29 +21,41 @@ def client():
     with test_app.test_client() as client:
         yield client    
 
-@pytest.fixture
-def mock_get_requests(monkeypatch):
-    def get_mocked_to_do_items(arg):
-        mocked_to_do_items = [
-            TrelloCard("To Do", 1, 1, "To Do Item 1", "2020-12-01T00:00:00.000Z"),
-            TrelloCard("To Do", 1, 2, "To Do Item 2", "2020-12-01T00:00:00.000Z" ),
-            TrelloCard("To Do", 1, 3, "To Do Item 3", "2020-12-01T00:00:00.000Z"),
-            TrelloCard("Doing", 2, 4, "Doing Item 4", "2020-12-01T00:00:00.000Z"),
-            TrelloCard("Doing", 2, 5, "Doing Item 5", "2020-12-01T00:00:00.000Z"),
-            TrelloCard("Done", 3, 6, "Done Item 6", "2020-12-01T00:00:00.000Z"),
-            TrelloCard("Random, should only be returned by items", 4, 7, "Random Item 7", "2020-12-01T00:00:00.000Z")
-        ] 
-        return mocked_to_do_items
+class MockResponse(object):
+    def _init__ (self):
+        self.status_code = 200
 
-    monkeypatch.setattr(Trello, "get_todo_items", get_mocked_to_do_items)
+    def json(self):
+        directory = os.path.dirname(os.path.realpath(__file__))
+        datafile = directory + '\cards.json'
+        file = pathlib.Path(datafile)
     
-def test_index_page(mock_get_requests, client):
+        with file.open() as json_data:
+            contents = json.load(json_data)
+
+        return contents
+
+@pytest.fixture
+def mock_get_requests_2(monkeypatch):
+    def get_mocked_board(arg1): 
+        return "TestToDoBoard"
+    
+    def get_mocked_lists_on_board(arg1, arg2): 
+        lists = {}
+        lists["1"] = "TO DO"
+        return lists
+    
+    def get_mocked_request_get(arg1):
+        return MockResponse()
+
+    monkeypatch.setattr(Trello, "get_board_id", get_mocked_board)
+    monkeypatch.setattr(Trello, "get_lists_for_board", get_mocked_lists_on_board)
+    monkeypatch.setattr(requests, "get",  get_mocked_request_get)
+
+def test_index_page_2(mock_get_requests_2, client):
     response = client.get('/')
     assert response.status ==  "200 OK"
-    assert str(response.data).find("To Do Item 1") > -1
-    assert str(response.data).find("To Do Item 2") > -1
-    assert str(response.data).find("To Do Item 3") > -1
-    assert str(response.data).find("Doing Item 4") > -1
-    assert str(response.data).find("Doing Item 5") > -1
-    assert str(response.data).find("Done Item 6") > -1
+    assert str(response.data).find("hide button when done") > -1
+    assert str(response.data).find("test the app") > -1
+    assert str(response.data).find("add ability to restart") > -1
     
