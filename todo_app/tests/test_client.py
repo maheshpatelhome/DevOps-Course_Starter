@@ -37,7 +37,7 @@ class MockResponse(object):
 
 @pytest.fixture
 def mock_get_requests_2(monkeypatch):
-    def get_mocked_board(arg1): 
+    def get_mocked_board(arg1, arg2): 
         return "TestToDoBoard"
     
     def get_mocked_lists_on_board(arg1, arg2): 
