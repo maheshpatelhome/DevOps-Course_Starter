@@ -1,4 +1,5 @@
 import os
+from dotenv import load_dotenv, find_dotenv
 from threading import Thread
 import requests
 import pytest
@@ -17,12 +18,21 @@ def driver():
 
 @pytest.fixture()
 def test_app():
+    
+    file_path = find_dotenv('.env.test.e2e')
+    load_dotenv(file_path, override=True)
+
+    os.environ['API_KEY'] = os.getenv('API_KEY')
+    os.environ['API_TOKEN'] = os.getenv('API_TOKEN')
+    
+    
     board_id = create_trello_board("TestBoard")
     os.environ['TRELLO_BOARD_ID'] = board_id
     os.environ['BOARD_NAME'] = "TestBoard"
     os.environ['TO_DO_LIST_ID'] = get_list_id_for_board(board_id, "TO DO")
     os.environ['DONE_LIST_ID'] = get_list_id_for_board(board_id, "DONE")
     os.environ['DOING_LIST_ID'] = get_list_id_for_board(board_id, "DOING")
+    
     # construct the new application
     application = app.create_app()
     # start the app in its own thread.
