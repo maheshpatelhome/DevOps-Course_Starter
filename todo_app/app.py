@@ -1,6 +1,5 @@
 
 from flask import Flask, render_template, send_from_directory, request, redirect
-from todo_app.flask_config import Config
 from todo_app.data.session_items  import add_item, get_item, save_item
 from todo_app.trello import Trello
 from todo_app.todo_view_model import ToDoViewModel
@@ -8,7 +7,6 @@ from datetime import date, timedelta
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
 
     @app.route('/')
     def index():
