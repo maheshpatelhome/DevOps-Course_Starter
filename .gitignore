@@ -118,7 +118,6 @@ env/
 
 ### Configuration files ###
 .env
-.env.*
 
 ### geckodriver files
 geckodriver.*

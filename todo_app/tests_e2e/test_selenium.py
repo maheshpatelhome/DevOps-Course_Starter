@@ -19,7 +19,8 @@ def driver():
 @pytest.fixture()
 def test_app():
     
-    file_path = find_dotenv('.env.test.e2e')
+    #file_path = find_dotenv('.env.test.e2e')
+    file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
 
     os.environ['API_KEY'] = os.getenv('API_KEY')
