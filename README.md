@@ -62,3 +62,7 @@ TO_DO_LIST_ID
 DONE_LIST_ID
 DOING_LIST_ID
 
+
+To run the tests run the following commands from the directory where the code has ben checked out to
+poetry run pytest todo_app\tests_e2e
+poetry run pytest todo_app\tests  
