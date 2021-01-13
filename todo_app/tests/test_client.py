@@ -21,7 +21,7 @@ def client():
     with test_app.test_client() as client:
         yield client    
 
-class MockResponse(object):
+class MockListOfCardsResponse(object):
     def _init__ (self):
         self.status_code = 200
 
@@ -46,7 +46,7 @@ def mock_get_requests_2(monkeypatch):
         return lists
     
     def get_mocked_request_get(arg1):
-        return MockResponse()
+        return MockListOfCardsResponse()
 
     monkeypatch.setattr(Trello, "get_board_id", get_mocked_board)
     monkeypatch.setattr(Trello, "get_lists_for_board", get_mocked_lists_on_board)
