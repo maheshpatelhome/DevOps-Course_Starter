@@ -9,7 +9,6 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions 
 from selenium.webdriver.common.by import By
-from selenium.webdriver import ActionChains
 
 @pytest.fixture()
 def driver():
@@ -78,7 +77,7 @@ def test_can_create_new_to_do_item(driver, test_app):
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
-    ActionChains(driver).click(save_button).perform()
+    save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -101,13 +100,13 @@ def test_can_create_new_to_do_item_and_start_it(driver, test_app):
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
-    ActionChains(driver).click(save_button).perform()
+    save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
 
     doing_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Doing']")
-    ActionChains(driver).click(doing_button).perform()
+    doing_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -130,13 +129,13 @@ def test_can_create_new_to_do_item_and_complete_it(driver, test_app):
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
-    ActionChains(driver).click(save_button).perform()
+    save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
 
     done_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Done']")
-    ActionChains(driver).click(done_button).perform()
+    done_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -159,7 +158,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
-    ActionChains(driver).click(save_button).perform()
+    save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -177,7 +176,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
     assert to_do_list_table_cell.text == new_card_name
     
     doing_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Doing']")
-    ActionChains(driver).click(doing_button).perform()
+    doing_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -195,7 +194,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
     assert doing_list_table_cell.text == new_card_name
 
     done_button = driver.find_element_by_xpath("//table[@id='doing-table']/tbody/tr[1]/td[2]/a[text()='Done']")
-    ActionChains(driver).click(done_button).perform()
+    done_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -222,7 +221,7 @@ def test_can_create_new_to_do_item_start_it_and_complete_it(driver, test_app):
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
-    ActionChains(driver).click(save_button).perform()
+    save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -240,7 +239,7 @@ def test_can_create_new_to_do_item_start_it_and_complete_it(driver, test_app):
     assert to_do_list_table_cell.text == new_card_name
     
     doing_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Doing']")
-    ActionChains(driver).click(doing_button).perform()
+    doing_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -258,7 +257,7 @@ def test_can_create_new_to_do_item_start_it_and_complete_it(driver, test_app):
     assert doing_list_table_cell.text == new_card_name
 
     done_button = driver.find_element_by_xpath("//table[@id='doing-table']/tbody/tr[1]/td[2]/a[text()='Done']")
-    ActionChains(driver).click(done_button).perform()
+    done_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -285,7 +284,7 @@ def test_can_create_new_to_do_item_start_it_complete_it_and_restart_it(driver, t
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
-    ActionChains(driver).click(save_button).perform()
+    save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -303,7 +302,7 @@ def test_can_create_new_to_do_item_start_it_complete_it_and_restart_it(driver, t
     assert to_do_list_table_cell.text == new_card_name
     
     doing_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Doing']")
-    ActionChains(driver).click(doing_button).perform()
+    doing_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -321,7 +320,7 @@ def test_can_create_new_to_do_item_start_it_complete_it_and_restart_it(driver, t
     assert doing_list_table_cell.text == new_card_name
 
     done_button = driver.find_element_by_xpath("//table[@id='doing-table']/tbody/tr[1]/td[2]/a[text()='Done']")
-    ActionChains(driver).click(done_button).perform()
+    done_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
@@ -342,7 +341,7 @@ def test_can_create_new_to_do_item_start_it_complete_it_and_restart_it(driver, t
     assert done_list_table_cell.text == new_card_name
 
     doing_button_in_done_table = driver.find_element_by_xpath("//table[@id='done-table']/tbody/tr[1]/td[2]/a[text()='Doing']")
-    ActionChains(driver).click(doing_button_in_done_table).perform()
+    doing_button_in_done_table.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
     WebDriverWait(driver, 60).until(element_present)
