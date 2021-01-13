@@ -47,15 +47,15 @@ def test_app():
 def create_trello_board(board_name):
     trello = Trello()
     create_board_url = trello.add_key_and_token("https://api.trello.com/1/boards?name=" + board_name + "&")
-    request = requests.post(create_board_url)
-    response = request.json()
+    http_response = requests.post(create_board_url)
+    response = http_response.json()
     return response["id"]
 
 def get_list_id_for_board(board_id, list_name):
     trello = Trello()
     lists_url = trello.add_key_and_token("https://api.trello.com/1/boards/" + board_id + "/lists?")
-    request = requests.get(lists_url)
-    response = request.json()
+    http_response = requests.get(lists_url)
+    response = http_response.json()
     for item in response:
         if list_name.upper() == item["name"].upper():
             list_id = item["id"]
