@@ -15,7 +15,7 @@ class Trello:
     
     def get_todo_items(self):
         todo_items=[]
-        board_id=self.get_board_id()
+        board_id=self.get_board_id(self.board_name)
         trelloLists=self.get_lists_for_board(board_id)
         for key in trelloLists: 
             cards = self.get_cards_for_list(key, trelloLists[key])
@@ -26,13 +26,13 @@ class Trello:
     def add_key_and_token(self, url):   
         return f"{url}key={self.trello_key}&token={self.trello_token}"
 
-    def get_board_id(self):
+    def get_board_id(self, board_name):
         boards_url = self.add_key_and_token("https://api.trello.com/1/members/me/boards?")
         request = requests.get(boards_url)
         response = request.json()
         
         for item in response:
-            if (item["name"] == self.board_name):
+            if (item["name"] == board_name):
                 return item["id"]
         
         #need to raise an error if it returns zero as board cant be found
@@ -55,7 +55,7 @@ class Trello:
         request = requests.get(cards_for_list_url)
         response = request.json()
         for item in response:
-            card = TrelloCard(list_name, list_id, item["id"], item["name"])
+            card = TrelloCard(list_name, list_id, item["id"], item["name"], item["dateLastActivity"])
             cards[item["id"]]=card
         
         return cards
@@ -81,3 +81,5 @@ class Trello:
         move_to_different_list_url = self.add_key_and_token("https://api.trello.com/1/cards/" + card_id + "?idList=" + list_id + "&")
         requests.put(move_to_different_list_url)
         return
+
+    

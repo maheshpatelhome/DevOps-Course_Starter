@@ -2,60 +2,113 @@
 {% block title %}To-Do App{% endblock %}
 
 {% block content %}
-  <div class="jumbotron">
-    <h1 class="display-4">To-Do App</h1>
-    <p class="lead">Just another to-do app.</p>
-  </div>
+<div class="jumbotron">
+  <h1 class="display-4">To-Do App</h1>
+  <p class="lead">Just another to-do app.</p>
+</div>
 
-  <div class="row">
-    <div class="col-md-12">
-      <h2>Items</h2>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Status &nbsp; &nbsp;
-              <a href={{ url_for("sort_status", in_order="asc")}}><i class="fa fa-arrow-up"></i></a>
-              <a href={{ url_for("sort_status", in_order="desc")}}><i class="fa fa-arrow-down"></i></a>
-            </th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {%for toDoItem in items %}
-          <tr>
-            <td>{{toDoItem.title}}</td>
-            <td >{{toDoItem.status}}</td>
-            <td style="text-align: center;">
-              {%if (toDoItem.status == "To Do")%}
-                <a href={{ url_for("doing_item", card_id=toDoItem.id)}} class="btn btn-info">Doing</a>
-                <a href={{ url_for("done_item", card_id=toDoItem.id)}} class="btn btn-info">Done</a>
-              {%elif (toDoItem.status == "Doing")%}  
-                <a href={{ url_for("todo_item", card_id=toDoItem.id)}} class="btn btn-info">To Do</a>
-                <a href={{ url_for("done_item", card_id=toDoItem.id)}} class="btn btn-info">Done</a>
-              {%else%}
-                <a href={{ url_for("todo_item", card_id=toDoItem.id)}} class="btn btn-info">To Do</a>
-                <a href={{ url_for("doing_item", card_id=toDoItem.id)}} class="btn btn-info">Doing</a>
-              {%endif%}
-            </td>
-          </tr>
+<div class="row">
+  <div class="col-md-12">
+    <h2>To Do Items</h2>
+    <table class="table table-striped" id="to-do-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for item in view_model.to_do_items %}
+        <tr>
+          <td style="width:70%">{{item.title}}</td>
+          <td style="text-align: center;">
+            <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
+            <a href={{ url_for("done_item", card_id=item.id)}} class="btn btn-info">Done</a>
+          </td>
+        </tr>
         {% endfor %}
-        </tbody>
-      </table>
-    </div>
-  </div>
+      </tbody>
+    </table>
 
-  <div class="row">
-    <div class="col-md-12">
-      <form method="POST" action="/">
-        <div class="col-md-9 form-group row">
-          <label> New To-Do Item</label>
-          <input class="form-control" type="text" name="todoTitle" required>
-        </div>
-        <div class="col-md-9 form-group row">
-          <button type="submit" class="btn btn-success">Save</button>
-        </div>
-      </form>
-    </div>
+    <h2>Doing Items</h2>
+    <table class="table table-striped"  id="doing-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for item in view_model.doing_items %}
+        <tr>
+          <td style="width:70%">{{item.title}}</td>
+          <td style="text-align: center;">
+            <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
+            <a href={{ url_for("done_item", card_id=item.id)}} class="btn btn-info">Done</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h2>Done Items</h2>
+    {% if show_all %}
+    <a href={{ url_for("show_recent")}} class="btn btn-info">Show Recently Done</a>
+    <table class="table table-striped"  id="done-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for item in view_model.done_items %}
+        <tr>
+          <td style="width:70%">{{item.title}}</td>
+          <td style="text-align: center;">
+            <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
+            <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <a href={{ url_for("show_all")}} class="btn btn-info">Show All Done</a>
+    <table class="table table-striped" id="done-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {%for item in view_model.recent_done_items %}
+        <tr>
+          <td style="width:70%">{{item.title}}</td>
+          <td style="text-align: center;">
+            <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
+            <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
   </div>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form method="POST" action="/">
+      <div class="col-md-9 form-group row">
+        <label> New To-Do Item</label>
+        <input class="form-control" type="text" name="todoTitle" required>
+      </div>
+      <div class="col-md-9 form-group row">
+        <button type="submit" class="btn btn-success" id="save_new">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
 {% endblock %}
