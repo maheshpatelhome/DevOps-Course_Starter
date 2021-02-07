@@ -127,3 +127,6 @@ geckodriver.*
 
 ### vscode ###
 .vscode
+
+### log file for starting up app in a VM ###
+logs.txt
