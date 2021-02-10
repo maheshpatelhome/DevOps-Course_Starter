@@ -1,6 +1,8 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "hashicorp/bionic64"
   
+  #redirect traffic from port 5000 on the host machine to port 5000 on the VM
+  config.vm.network "forwarded_port", guest: 5000, host: 5000  
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
   sudo apt-get update
   sudo apt-get install -y build-essential libssl-dev zlib1g-dev libbz2-dev \
@@ -24,6 +26,7 @@ Vagrant.configure("2") do |config|
   
   curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
   
+
  SHELL
  
   config.trigger.after :up do |trigger|
@@ -33,7 +36,9 @@ Vagrant.configure("2") do |config|
 	# Install dependencies and launch
 	cd /vagrant
 	poetry install
-	nohup poetry run flask run > logs.txt 2>&1 &
+	
+	# run flask on 0.0.0.0
+	nohup poetry run flask run --host=0.0.0.0 > logs.txt 2>&1 &
 	"}
  end
 end
