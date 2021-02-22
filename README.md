@@ -66,3 +66,7 @@ DOING_LIST_ID
 To run the tests run the following commands from the directory where the code has ben checked out to
 poetry run pytest todo_app\tests_e2e
 poetry run pytest todo_app\tests  
+
+
+
+To run the app in a VM via Vagrant use the "vagrant up" command, this will launch a VM with all the dependencies installed and the application can be accessed on http://localhost:5000
