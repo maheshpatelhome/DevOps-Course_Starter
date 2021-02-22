@@ -121,3 +121,12 @@ env/
 
 ### geckodriver files
 geckodriver.*
+
+### vagrant sub directory ###
+.vagrant
+
+### vscode ###
+.vscode
+
+### log file for starting up app in a VM ###
+logs.txt
