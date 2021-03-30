@@ -81,8 +81,8 @@ docker build --target development --tag todo-app:dev .
 
 To run the docker container for production use:
 docker run -p 9000:8000 --env-file .env todo-app:prod
-the application will be availabe by browsing to http://localhost:9000
+the application will be available by browsing to http://localhost:9000
 
 To run the docker container for development use:
 docker run --mount src="$pwd",target=/app,type=bind -p 9000:5000 --env-file .env todo-app:dev
-the application will be availabe by browsing to http://localhost:9000
+the application will be available by browsing to http://localhost:9000
