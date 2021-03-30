@@ -70,3 +70,19 @@ poetry run pytest todo_app\tests
 
 
 To run the app in a VM via Vagrant use the "vagrant up" command, this will launch a VM with all the dependencies installed and the application can be accessed on http://localhost:5000
+
+
+
+To build this app for Docker use for production use:
+docker build --target production --tag todo-app:prod .
+
+To build this app for Docker use for development use:
+docker build --target development --tag todo-app:dev .
+
+To run the docker container for production use:
+docker run -p 9000:8000 --env-file .env todo-app:prod
+the application will be available by browsing to http://localhost:9000
+
+To run the docker container for development use:
+docker run --mount src="$pwd",target=/app,type=bind -p 9000:5000 --env-file .env todo-app:dev
+the application will be available by browsing to http://localhost:9000

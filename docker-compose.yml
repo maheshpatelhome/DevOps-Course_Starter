@@ -1,0 +1,9 @@
+services:
+  todoapp:
+    build: .
+    ports: 
+      - 9000:5000
+    env_file: 
+      - .env
+    volumes:
+      - .:/app
