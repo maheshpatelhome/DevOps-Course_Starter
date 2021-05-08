@@ -1,0 +1,9 @@
+script:
+# run docker build
+- docker build --target test --tag my-test-image .
+
+# run unit tests
+- docker run my-test-image ./todo_app/tests/todo_view_model_test.py
+
+# run integration tests 
+- docker run my-test-image ./todo_app/tests/test_client.py

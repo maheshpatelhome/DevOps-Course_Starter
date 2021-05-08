@@ -12,9 +12,28 @@ from selenium.webdriver.common.by import By
 
 @pytest.fixture()
 def driver():
-    with webdriver.Firefox() as driver:
-        yield driver
+    #with webdriver.Firefox() as driver:
+    #    yield driver
 
+    # for chromium options https://peter.sh/experiments/chromium-command-line-switches/
+    # to stop :ERROR:ssl_client_socket_impl.cc(947)] handshake failed; returned -1, SSL error code 1, net_error -101
+    # https://stackoverflow.com/questions/37883759/errorssl-client-socket-openssl-cc1158-handshake-failed-with-chromedriver-chr
+    # to stop usb error
+    #https://stackoverflow.com/questions/64927909/failed-to-read-descriptor-from-node-connection-a-device-attached-to-the-system
+    opts = webdriver.ChromeOptions()
+    opts.add_argument('--headless')
+    opts.add_experimental_option('excludeSwitches', ['enable-logging'])
+    opts.add_argument('--no-sandbox')
+    #opts.add_argument('--disable-dev-shm-usage')
+    #opts.add_argument('--disable-webgl')
+    #opts.add_argument('--disable-gpu')
+    #opts.add_argument('--ignore-certificate-errors')
+    #opts.add_argument('--ignore-ssl-errors')
+    #opts.add_argument('--ignore-certificate-errors-spki-list')
+
+    with webdriver.Chrome('./chromedriver', options=opts) as driver:
+        yield driver
+    
 @pytest.fixture()
 def test_app():
     
@@ -24,7 +43,6 @@ def test_app():
 
     os.environ['API_KEY'] = os.getenv('API_KEY')
     os.environ['API_TOKEN'] = os.getenv('API_TOKEN')
-    
     board_id = create_trello_board("TestBoard")
     os.environ['TRELLO_BOARD_ID'] = board_id
     os.environ['BOARD_NAME'] = "TestBoard"
