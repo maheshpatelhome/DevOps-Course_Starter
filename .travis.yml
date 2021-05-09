@@ -18,4 +18,4 @@ script:
   # run integration tests
   - docker run my-test-image ./todo_app/tests/test_client.py
   # run e2e tests
-  - docker run my-test-image todo_app/tests_e2e 
+  - docker run my-test-image todo_app/tests_e2e -s
