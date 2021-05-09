@@ -11,9 +11,9 @@
   # - secure: "aCLj70bKVjBoJtyVjQ8npg9ufq+xUMmRuko3s9R9rv8WQg16PMYkPQrHmP+a56ALD3zRtJEOHp0CrsS7A4wasRwNZiL/BRO2fzINLgcUhv7Ro7gxH5g/nFhyb/qtKOn5XbYSTobUrxTy7iue4yzRxi8F2u+H8zJGyYddjyAtp2iEfkp1WmeH1s9Q7vkOV6TBWX99K8LuTsRWh9EdVmYdj/orOnrcDAWKqJTZxb8lK61Iuw2oa9fJemaNpcGN3pPSckFr35ZHm2A+YA7jDadMaKwKIaaqMb8U1o4j5q1lEKJRSdmMVaKoq/IzplesJImGJIO715ZIoWp3H4Agp5BsHI4erlCZW5cfpap13obl9+MMEyBBlZOUPZm/LGbp/jDpi+RzSZsLtzTemuhP7oFz+o3AHZ70g5ltEa2JoVM1TGTUWSwhycmcFHHp9FUy+30Jt+Eq4kgAgLjil3vdyy65+Zdr8bezcKDBIYWKh5JF9tTmkqQaI5DukLffEmziURpKc6JJLCbjuk3RtVv6b0asP8JiZq/HrqR/XvmFNWIPbuW+8s24sfSivHkMGzWR5MtkEDe8g5h8Gb3leU6oKoymlm48zZRsuLx0Wa7beZ7J4+6zGne9J78ICHt/AICAHc+vhgx1bzUhz88zpKUxWJa4+LIiihi8/pI00iVnQe+JoSU="
   # - secure: "VJzi1y5O6qep9f97q9+K/4XAInuV6gR0aWSaqE9G42klutOnFAndsjXzcr+qIIwLOvhCIsivqVeoBIfu3LtvBoPGhMjPkvYhKS0VNyD3HIrPcMlOlZXrdiXQ01ghuEkdA+SE+fmfc/JzgqsV5kLlo1aklxV04P7jUnlH/q/7WjKphGNpLXq1woUToIjUHbZ3bwNFx0hJevLFPb28/kllCYcUtdT1F7sHhAmY5qe6J2cUEJXJhVfdvpxMTTJBHeH9YYuJWNbyUDbndxHc/ZNCl1o8bJdCy2X+yQPAVisZY24Suk9mHFsvf4wOhDZnm5dNuT00ct7e0aS+rBqWUEsX9K8it1NLwhE7W0kI5/3P5Cglvmuof6cqCyFgfJKSIP6HeuT5XHMoJ58lMzWKAjbYdnAqUA7Rng6HsdOTC+4z8yTAkXAZ0nwLxfAkYq3YVPiXFuqKT46NAkVN+kuPMsz0uL0aFHPNJAwOkCu3QJWAJzk/o5KFbK4Y0W69tRXfPySLjgiqswRbGwIquaJ8nQrHHTst5FT5ZvQEQ2n2p5YL9YWY7nOZDvh+aPdToDr3sO5O81sLdyokUpvj/+dvayuSspswuVnP63w2enWiDG9t0Npf2i4ohKg5Kldgn8uK+BxkFcoWeR74zffcCjNk9d4LNr2l66SQiza904U+rmab+wA="
 script:
-# build docker image 
-- docker build --target test --tag my-test-image .
-# run unit tests 
-- docker run my-test-image ./todo_app/tests/todo_view_model_test.py
-# build integrtion tests
-- docker run my-test-image ./todo_app/tests/test_client.py
+  # build docker image 
+  - docker build --target test --tag my-test-image .
+  # run unit tests 
+  - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
+  # build integrtion tests
+  - docker run my-test-image ./todo_app/tests/test_client.py
