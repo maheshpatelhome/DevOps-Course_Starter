@@ -98,5 +98,5 @@ To run the e2e tests in the docker container use:
 docker run --env-file ./.env my-test-image todo_app/tests_e2e
 
 To run the travis encyption use:
-travis encrypt SECRET_KEY=secret-key
+travis encrypt <KEYNAME>=<KEYVALUE> maheshpatelhome / DevOps-Course_Starter
 then add that to the secure section of .travis.yml
