@@ -15,5 +15,7 @@ script:
   - docker build --target test --tag my-test-image .
   # run unit tests 
   - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
-  # build integrtion tests
+  # run integration tests
   - docker run my-test-image ./todo_app/tests/test_client.py
+  # run e2e tests
+  - docker run my-test-image todo_app/tests_e2e 
