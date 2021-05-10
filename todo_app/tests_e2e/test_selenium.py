@@ -41,6 +41,9 @@ def test_app():
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
 
+    for env in sorted(os.environ.keys()):
+        print(f"{env:25} = {os.environ[env]}")
+        
     print (os.getenv('API_KEY'))
     os.environ['API_KEY'] = os.getenv('API_KEY')
     os.environ['API_TOKEN'] = os.getenv('API_TOKEN')
