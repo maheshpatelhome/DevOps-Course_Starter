@@ -7,4 +7,4 @@ script:
 - docker build --target test --tag my-test-image .
 - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
 - docker run my-test-image ./todo_app/tests/test_client.py
-- docker run my-test-image todo_app/tests_e2e -s
+- docker run my-test-image -e API_KEY todo_app/tests_e2e -s
