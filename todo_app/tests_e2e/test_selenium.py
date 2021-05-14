@@ -116,34 +116,34 @@ def test_can_create_new_to_do_item(driver, test_app):
     #make sure the todo table row has a value and the text is "New Selenium Test Item"
     assert to_do_list_table_cell.text == new_card_name
     
-# def test_can_create_new_to_do_item_and_start_it(driver, test_app):
-#     new_card_name = "New Selenium Test Item"
-#     driver.get('http://localhost:5000/')
-#     new_to_do_textbox = driver.find_element_by_name("todoTitle")
-#     new_to_do_textbox.send_keys(new_card_name)
-#     save_button = driver.find_element_by_id("save_new")
-#     save_button.click()
+def test_can_create_new_to_do_item_and_start_it(driver, test_app):
+    new_card_name = "New Selenium Test Item"
+    driver.get('http://localhost:5000/')
+    new_to_do_textbox = driver.find_element_by_name("todoTitle")
+    new_to_do_textbox.send_keys(new_card_name)
+    save_button = driver.find_element_by_id("save_new")
+    save_button.click()
 
-#     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+    element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
+    WebDriverWait(driver, 60).until(element_present)
 
-#     doing_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Doing']")
-#     doing_button.click()
+    doing_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Doing']")
+    doing_button.click()
 
-#     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+    element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
+    WebDriverWait(driver, 60).until(element_present)
 
-#     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
-#     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
-#     done_list_table_rows = driver.find_element_by_xpath("//table[@id='done-table']/tbody").find_elements_by_tag_name("tr")
-#     doing_list_table_cell = driver.find_element_by_xpath("//table[@id='doing-table']/tbody/tr[1]/td[1]")
+    to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
+    doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
+    done_list_table_rows = driver.find_element_by_xpath("//table[@id='done-table']/tbody").find_elements_by_tag_name("tr")
+    doing_list_table_cell = driver.find_element_by_xpath("//table[@id='doing-table']/tbody/tr[1]/td[1]")
 
-#     #make sure there is one row in doing table and none in the todo and done
-#     assert len(to_do_list_table_rows) == 0
-#     assert len(doing_list_table_rows) == 1
-#     assert len(done_list_table_rows) == 0
-#     #make sure the doing table row has a value and the text is "New Selenium Test Item"
-#     assert doing_list_table_cell.text == new_card_name
+    #make sure there is one row in doing table and none in the todo and done
+    assert len(to_do_list_table_rows) == 0
+    assert len(doing_list_table_rows) == 1
+    assert len(done_list_table_rows) == 0
+    #make sure the doing table row has a value and the text is "New Selenium Test Item"
+    assert doing_list_table_cell.text == new_card_name
 
 # def test_can_create_new_to_do_item_and_complete_it(driver, test_app):
 #     new_card_name = "New Selenium Test Item"
