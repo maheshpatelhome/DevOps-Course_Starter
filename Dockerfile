@@ -69,7 +69,4 @@ COPY . /app
 # command to run tests
 ENTRYPOINT ["poetry", "run", "pytest"]
 
-# expose port 5000 for FLASK
-EXPOSE 5000
-
 ### END OF TEST ###

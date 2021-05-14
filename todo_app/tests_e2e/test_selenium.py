@@ -3,6 +3,7 @@ from dotenv import load_dotenv, find_dotenv
 from threading import Thread
 import requests
 import pytest
+import time
 from todo_app.trello import Trello
 from todo_app import app
 from selenium import webdriver 
@@ -41,10 +42,6 @@ def test_app():
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
 
-    # for env in sorted(os.environ.keys()):
-    #     print(f"{env:25} = {os.environ[env]}")
-        
-    print (os.getenv('API_KEY'))
     os.environ['API_KEY'] = os.getenv('API_KEY')
     os.environ['API_TOKEN'] = os.getenv('API_TOKEN')
     board_id = create_trello_board("TestBoard")
@@ -64,6 +61,7 @@ def test_app():
     # Tear Down
     thread.join(1)
     delete_trello_board(board_id)
+    time.sleep(30)
 
 def create_trello_board(board_name):
     trello = Trello()
