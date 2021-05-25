@@ -122,6 +122,9 @@ env/
 ### geckodriver files
 geckodriver.*
 
+### chromedriver files
+chromedriver.*
+
 ### vagrant sub directory ###
 .vagrant
 

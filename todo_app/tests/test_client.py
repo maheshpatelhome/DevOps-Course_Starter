@@ -27,7 +27,9 @@ class MockListOfCardsResponse(object):
 
     def json(self):
         directory = os.path.dirname(os.path.realpath(__file__))
-        datafile = directory + '\cards.json'
+        print(directory)
+        datafile = directory + '/cards.json'
+        #datafile = './cards.json'
         file = pathlib.Path(datafile)
     
         with file.open() as json_data:
@@ -37,7 +39,7 @@ class MockListOfCardsResponse(object):
 
 @pytest.fixture
 def mock_get_requests_2(monkeypatch):
-    def get_mocked_board(arg1, arg2): 
+    def get_mocked_board(arg1, arg2):
         return "TestToDoBoard"
     
     def get_mocked_lists_on_board(arg1, arg2): 

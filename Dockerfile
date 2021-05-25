@@ -19,7 +19,7 @@ FROM base as production
 RUN poetry install --no-dev
 
 #copy code
-COPY . /app
+COPY . /app 
 
 # gunicorn command to run when starting up the container
 ENTRYPOINT ["poetry", "run", "gunicorn", "-b",  "0.0.0.0:8000", "todo_app.app:create_app()"]
@@ -32,7 +32,7 @@ EXPOSE 8000
 ### DEVELOPMENT ###
 FROM base as development
 
-#install poetry dependencies from pyprojecy.toml without the dev dependences
+#install poetry dependencies from pyprojecy.toml 
 RUN poetry install
 
 # flask command to run when starting up the container
@@ -41,3 +41,32 @@ ENTRYPOINT ["poetry", "run", "flask", "run", "--host", "0.0.0.0"]
 # expose port 5000 for FLASK
 EXPOSE 5000
 ### END OF DEVELOPMENT ###
+
+### TEST ###
+FROM base as test
+
+#install poetry dependencies from pyprojecy.toml
+RUN poetry install
+
+#update package list, otherwise google chrome wont install
+RUN apt-get update
+ 
+# Install Chrome
+RUN curl -sSL https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb -o chrome.deb &&\
+apt-get install ./chrome.deb -y &&\
+rm ./chrome.deb
+
+#Install Chromium WebDriver
+RUN LATEST=`curl -sSL https://chromedriver.storage.googleapis.com/LATEST_RELEASE` &&\
+echo "Installing chromium webdriver version ${LATEST}" &&\
+curl -sSL https://chromedriver.storage.googleapis.com/${LATEST}/chromedriver_linux64.zip -o chromedriver_linux64.zip &&\
+apt-get install unzip -y &&\
+unzip ./chromedriver_linux64.zip
+
+#copy code
+COPY . /app 
+
+# command to run tests
+ENTRYPOINT ["poetry", "run", "pytest"]
+
+### END OF TEST ###
