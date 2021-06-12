@@ -13,9 +13,10 @@ jobs:
     - stage: deploy
       script:
       - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
+      - docker build --target production --tag "$DOCKER_USERNAME"/todo-app:prod:"$TRAVIS_COMMIT" .
+      - docker push "$DOCKER_USERNAME"/todo-app:prod:"$TRAVIS_COMMIT"
+
 
 #branches:
 #  only:
-#  - master
-#- docker build --target production --tag "$DOCKER_USERNAME"/todo-app:prod:"$TRAVIS_COMMIT" .
-#- docker push "$DOCKER_USERNAME"/todo-app:prod:"$TRAVIS_COMMIT"
+#  - main
