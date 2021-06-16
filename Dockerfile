@@ -3,6 +3,7 @@ FROM python:3.8 as base
 #install poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ENV PATH="${PATH}:/root/.poetry/bin"
+ENV PORT=8000
 
 # copy across pyproject.toml and poetry.lock so the dependencies can be installed
 RUN mkdir /app
@@ -21,11 +22,15 @@ RUN poetry install --no-dev
 #copy code
 COPY . /app 
 
-# gunicorn command to run when starting up the container
-ENTRYPOINT ["poetry", "run", "gunicorn", "-b",  "0.0.0.0:8000", "todo_app.app:create_app()"]
+# give the entrypoint.sh file, execute permission
+RUN chmod +x ./entrypoint.sh
 
-# expose port 8000 
-EXPOSE 8000
+# the entrypoint file will have the gunicorn command to run when starting up the container, which is the equivaent of this
+#ENTRYPOINT ["poetry", "run", "gunicorn", "-b",  "0.0.0.0:8000", "todo_app.app:create_app()"]
+ENTRYPOINT ["./entrypoint.sh"]
+
+# expose port 
+EXPOSE ${port}
 ### END OF PRODUCTION ###
 
 
