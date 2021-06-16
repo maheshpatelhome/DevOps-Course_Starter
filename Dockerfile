@@ -3,7 +3,7 @@ FROM python:3.8 as base
 #install poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
 ENV PATH="${PATH}:/root/.poetry/bin"
-ENV PORT=8000
+#ENV PORT=8000
 
 # copy across pyproject.toml and poetry.lock so the dependencies can be installed
 RUN mkdir /app
