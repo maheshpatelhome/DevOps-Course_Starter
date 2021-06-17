@@ -16,3 +16,8 @@ jobs:
       - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
       - docker build --target production --tag "$DOCKER_USERNAME"/todo-app-prod:"$TRAVIS_COMMIT" .
       - docker push "$DOCKER_USERNAME"/todo-app-prod:"$TRAVIS_COMMIT"
+      - docker pull "$DOCKER_USERNAME"/todo-app-prod:"$TRAVIS_COMMIT"
+      - docker tag $DOCKER_USERNAME"/todo-app-prod:$TRAVIS_COMMIT" registry.heroku.com/maheshs-todo-app/web
+      - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com 
+      - docker push registry.heroku.com/maheshs-todo-app/web
+      - heroku container:release web -a maheshs-todo-app
