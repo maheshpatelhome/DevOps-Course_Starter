@@ -9,7 +9,7 @@ jobs:
       - docker build --target test --tag my-test-image .
       - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
       - docker run my-test-image ./todo_app/tests/test_client.py
-      - docker run -e API_KEY -e API_TOKEN -e BOARD_NAME -e MEMBERS_NAME -e TO_DO_LIST_ID -e DOING_LIST_ID -e DONE_LIST_ID  -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
+      - docker run -e API_KEY -e API_TOKEN  -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
     - stage: deploy
       if: branch = main 
       script:
