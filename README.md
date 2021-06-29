@@ -77,7 +77,7 @@ To build this app for Docker production use:
 docker build --target production --tag todo-app:prod .
 
 To run the docker container for production use:
-docker run -p 9000:8000 --env-file .env todo-app:prod
+docker run -p 9000:8005 -e PORT=8005 --env-file .env todo-app:prod
 the application will be available by browsing to http://localhost:9000
 
 

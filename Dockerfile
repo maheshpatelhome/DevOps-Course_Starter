@@ -16,16 +16,19 @@ WORKDIR /app
 FROM base as production
 
 #install poetry dependencies from pyprojecy.toml without the dev dependences
-RUN poetry install --no-dev
+RUN poetry config virtualenvs.create false --local && poetry install --no-dev
 
 #copy code
 COPY . /app 
 
-# gunicorn command to run when starting up the container
-ENTRYPOINT ["poetry", "run", "gunicorn", "-b",  "0.0.0.0:8000", "todo_app.app:create_app()"]
+# give the entrypoint.sh file, execute permission
+RUN chmod +x ./entrypoint.sh
 
-# expose port 8000 
-EXPOSE 8000
+# the entrypoint file will have the gunicorn command to run when starting up the container, which is the equivaent of this
+ENTRYPOINT ["./entrypoint.sh"]
+
+# expose port 
+EXPOSE ${port}
 ### END OF PRODUCTION ###
 
 

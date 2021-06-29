@@ -1,5 +1,25 @@
-script:
-- docker build --target test --tag my-test-image .
-- docker run my-test-image ./todo_app/tests/todo_view_model_test.py
-- docker run my-test-image ./todo_app/tests/test_client.py
-- docker run -e API_KEY -e API_TOKEN -e BOARD_NAME -e MEMBERS_NAME -e TO_DO_LIST_ID -e DOING_LIST_ID -e DONE_LIST_ID  -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
+language: python
+
+services: docker
+
+jobs: 
+  include:
+    - stage: test
+      script:
+      - docker build --target test --tag my-test-image .
+      - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
+      - docker run my-test-image ./todo_app/tests/test_client.py
+      - docker run -e API_KEY -e API_TOKEN -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
+    - stage: deploy
+      if: (type = PUSH AND branch = main) 
+      script:
+      - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
+      - docker build --target production --tag "$DOCKER_USERNAME"/todo-app-prod:"$TRAVIS_COMMIT" .
+      - docker build --target production --tag "$DOCKER_USERNAME"/todo-app-prod:latest .
+      - docker push "$DOCKER_USERNAME"/todo-app-prod:"$TRAVIS_COMMIT"
+      - docker push "$DOCKER_USERNAME"/todo-app-prod:"latest"
+      - docker pull "$DOCKER_USERNAME"/todo-app-prod:"latest"
+      - docker tag $DOCKER_USERNAME"/todo-app-prod:latest" registry.heroku.com/maheshs-todo-app/web
+      - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com 
+      - docker push registry.heroku.com/maheshs-todo-app/web
+      - heroku container:release web -a maheshs-todo-app
