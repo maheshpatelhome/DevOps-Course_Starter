@@ -12,7 +12,8 @@ jobs:
       - docker run -e API_KEY -e API_TOKEN -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
     - stage: deploy
       #if: (branch = main)
-      if: ($TRAVIS_BRANCH == "main" AND  $TRAVIS_EVENT_TYPE == "PUSH") 
+      #AND  $TRAVIS_EVENT_TYPE == "PUSH"
+      if: ($TRAVIS_BRANCH = "main") 
       script:
       - echo $TRAVIS_BRANCH
       - echo $TRAVIS_EVENT_TYPE
