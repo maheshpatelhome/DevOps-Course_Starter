@@ -6,6 +6,8 @@ jobs:
   include:
     - stage: test
       script:
+      - echo $TRAVIS_BRANCH
+      - echo $TRAVIS_EVENT_TYPE
       - docker build --target test --tag my-test-image .
       - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
       - docker run my-test-image ./todo_app/tests/test_client.py
@@ -13,7 +15,7 @@ jobs:
     - stage: deploy
       #if: (branch = main)
       #AND  $TRAVIS_EVENT_TYPE == "PUSH"
-      if: ("$TRAVIS_BRANCH" == "main") 
+      if: ("$TRAVIS_BRANCH" == main) 
       script:
       - echo $TRAVIS_BRANCH
       - echo $TRAVIS_EVENT_TYPE
