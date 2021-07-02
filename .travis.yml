@@ -11,7 +11,7 @@ jobs:
       - docker run my-test-image ./todo_app/tests/test_client.py
       - docker run -e API_KEY -e API_TOKEN -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
     - stage: deploy
-      if: (branch = main)
+      if: (branch = main) AND (type = push) 
       #if: (type = push)
       script:
       - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
