@@ -6,20 +6,14 @@ jobs:
   include:
     - stage: test
       script:
-      - echo $TRAVIS_BRANCH
-      - echo $TRAVIS_EVENT_TYPE
       - docker build --target test --tag my-test-image .
       - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
       - docker run my-test-image ./todo_app/tests/test_client.py
       - docker run -e API_KEY -e API_TOKEN -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
     - stage: deploy
-      #if: (branch = main)
-      if: (type = push)
-      #AND  $TRAVIS_EVENT_TYPE == "PUSH"
-      #if: (TRAVIS_BRANCH == "main") 
+      if: (branch = main)
+      #if: (type = push)
       script:
-      - echo $TRAVIS_BRANCH
-      - echo $TRAVIS_EVENT_TYPE
       - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
       - docker build --target production --tag "$DOCKER_USERNAME"/todo-app-prod:"$TRAVIS_COMMIT" .
       - docker build --target production --tag "$DOCKER_USERNAME"/todo-app-prod:latest .
