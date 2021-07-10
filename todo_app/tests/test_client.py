@@ -1,12 +1,12 @@
-from dotenv import find_dotenv, load_dotenv
 import pytest
 import requests
-import pathlib
 from todo_app import app
-from todo_app.trello import Trello
 from todo_app.trello_card import TrelloCard
-from flask import request, json
-import os
+from todo_app.mongo import Mongo
+from flask import request
+from datetime import datetime
+from dotenv import find_dotenv, load_dotenv
+
 
 @pytest.fixture
 def client():
@@ -25,33 +25,22 @@ class MockListOfCardsResponse(object):
     def _init__ (self):
         self.status_code = 200
 
-    def json(self):
-        directory = os.path.dirname(os.path.realpath(__file__))
-        print(directory)
-        datafile = directory + '/cards.json'
-        #datafile = './cards.json'
-        file = pathlib.Path(datafile)
-    
-        with file.open() as json_data:
-            contents = json.load(json_data)
-
-        return contents
-
 @pytest.fixture
-def mock_get_requests_2(monkeypatch):
-    def get_mocked_board(arg1, arg2):
-        return "TestToDoBoard"
-    
-    def get_mocked_lists_on_board(arg1, arg2): 
-        lists = {}
-        lists["1"] = "TO DO"
-        return lists
-    
+def mock_get_requests_2(monkeypatch):    
     def get_mocked_request_get(arg1):
-        return MockListOfCardsResponse()
+        return MockListOfCardsResponse
 
-    monkeypatch.setattr(Trello, "get_board_id", get_mocked_board)
-    monkeypatch.setattr(Trello, "get_lists_for_board", get_mocked_lists_on_board)
+    def get_mocked_to_do_list(arg1):
+        to_do_items = []
+        card1 = TrelloCard("Doing", 1, "hide button when done", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        card2 = TrelloCard("Done",  2, "test the app", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        card3 = TrelloCard("To Do", 2, "add ability to restart", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        to_do_items.append(card1)
+        to_do_items.append(card2)
+        to_do_items.append(card3)
+        return to_do_items
+
+    monkeypatch.setattr(Mongo, "get_todo_items", get_mocked_to_do_list)
     monkeypatch.setattr(requests, "get",  get_mocked_request_get)
 
 def test_index_page_2(mock_get_requests_2, client):

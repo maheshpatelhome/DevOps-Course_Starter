@@ -1,15 +1,13 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 from threading import Thread
-import requests
 import pytest
-import time
-from todo_app.trello import Trello
 from todo_app import app
 from selenium import webdriver 
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions 
 from selenium.webdriver.common.by import By
+from todo_app.mongo import Mongo
 
 @pytest.fixture()
 def driver():
@@ -38,19 +36,11 @@ def driver():
 @pytest.fixture()
 def test_app():
     
-    #file_path = find_dotenv('.env.test.e2e')
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
 
-    os.environ['API_KEY'] = os.getenv('API_KEY')
-    os.environ['API_TOKEN'] = os.getenv('API_TOKEN')
-    board_id = create_trello_board("TestBoard")
-    os.environ['TRELLO_BOARD_ID'] = board_id
     os.environ['BOARD_NAME'] = "TestBoard"
-    os.environ['TO_DO_LIST_ID'] = get_list_id_for_board(board_id, "TO DO")
-    os.environ['DONE_LIST_ID'] = get_list_id_for_board(board_id, "DONE")
-    os.environ['DOING_LIST_ID'] = get_list_id_for_board(board_id, "DOING")
-    
+
     # construct the new application
     application = app.create_app()
     # start the app in its own thread.
@@ -60,31 +50,11 @@ def test_app():
     yield app
     # Tear Down
     thread.join(1)
-    delete_trello_board(board_id)
-    time.sleep(30)
+    delete_test_data("TestBoard")
 
-def create_trello_board(board_name):
-    trello = Trello()
-    create_board_url = trello.add_key_and_token("https://api.trello.com/1/boards?name=" + board_name + "&")
-    http_response = requests.post(create_board_url)
-    response = http_response.json()
-    return response["id"]
-
-def get_list_id_for_board(board_id, list_name):
-    trello = Trello()
-    lists_url = trello.add_key_and_token("https://api.trello.com/1/boards/" + board_id + "/lists?")
-    http_response = requests.get(lists_url)
-    response = http_response.json()
-    for item in response:
-        if list_name.upper() == item["name"].upper():
-            list_id = item["id"]
-    return list_id
-
-def delete_trello_board(board_id):
-    trello = Trello()
-    delete_board_url = trello.add_key_and_token("https://api.trello.com/1/boards/" + board_id + "?")
-    requests.delete(delete_board_url)
-    return
+def delete_test_data(board_name):
+    mongo = Mongo()
+    mongo.delete_date_for_board(board_name)
 
 def test_task_journey(driver, test_app):
     driver.get('http://localhost:5000/')
