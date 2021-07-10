@@ -13,8 +13,9 @@ class Mongo:
         self.default_database=os.getenv('DEFAULT_DATABASE')
         self.board_name=os.getenv('BOARD_NAME')
         self.connection_string = "mongodb+srv://" + self.user_name + ":" + self.password + "@" + self.mongo_url + "/" + self.default_database + "?w=majority"
-        
+
     def getClient(self):
+        print ("connection string" + self.connection_string)
         return pymongo.MongoClient(self.connection_string)
 
     def get_databases(self):
