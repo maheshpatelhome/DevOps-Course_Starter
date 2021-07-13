@@ -1,6 +1,6 @@
 from datetime import datetime
 
-class TrelloCard:
+class TodoCard:
 
     def __init__(self, list_name, card_id, card_name, last_modified): 
         self.status=list_name

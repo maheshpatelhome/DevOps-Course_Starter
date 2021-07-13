@@ -1,7 +1,7 @@
 import pytest
 import requests
 from todo_app import app
-from todo_app.trello_card import TrelloCard
+from todo_app.todo_card import TodoCard
 from todo_app.mongo import Mongo
 from flask import request
 from datetime import datetime
@@ -32,9 +32,9 @@ def mock_get_requests_2(monkeypatch):
 
     def get_mocked_to_do_list(arg1):
         to_do_items = []
-        card1 = TrelloCard("Doing", 1, "hide button when done", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
-        card2 = TrelloCard("Done",  2, "test the app", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
-        card3 = TrelloCard("To Do", 2, "add ability to restart", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        card1 = TodoCard("Doing", 1, "hide button when done", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        card2 = TodoCard("Done",  2, "test the app", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
+        card3 = TodoCard("To Do", 2, "add ability to restart", datetime.today().strftime("%Y-%m-%dT%H:%M:%S.%fZ"))
         to_do_items.append(card1)
         to_do_items.append(card2)
         to_do_items.append(card3)

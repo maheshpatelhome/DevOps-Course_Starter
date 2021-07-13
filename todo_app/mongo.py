@@ -2,7 +2,7 @@ import os
 from bson.objectid import ObjectId
 import pymongo 
 from dotenv import load_dotenv
-from todo_app.trello_card import TrelloCard
+from todo_app.todo_card import TodoCard
 from datetime import datetime
 
 class Mongo:
@@ -15,7 +15,6 @@ class Mongo:
         self.connection_string = "mongodb+srv://" + self.user_name + ":" + self.password + "@" + self.mongo_url + "/" + self.default_database + "?w=majority"
 
     def getClient(self):
-        print ("connection string" + self.connection_string)
         return pymongo.MongoClient(self.connection_string)
 
     def get_databases(self):
@@ -31,7 +30,7 @@ class Mongo:
         cards= {}
         for item in to_do_items_collection.find({"board_name" : self.board_name}):
             formatted_date = item["date_last_activity"].strftime("%Y-%m-%dT%H:%M:%S.%fZ")
-            card = TrelloCard(item["list_name"], item["_id"], item["name"], formatted_date)
+            card = TodoCard(item["list_name"], item["_id"], item["name"], formatted_date)
             cards[item["_id"]]=card        
         return cards
 
