@@ -12,20 +12,14 @@ class Mongo:
         self.mongo_url=os.getenv('MONGO_URL')
         self.default_database=os.getenv('DEFAULT_DATABASE')
         self.board_name=os.getenv('BOARD_NAME')
-        self.connection_string = "mongodb+srv://" + self.user_name + ":" + self.password + "@" + self.mongo_url + "/" + self.default_database + "?w=majority"
+        self.connection_string = "mongodb+srv://" + self.user_name + ":" + self.password + "@" + self.mongo_url + "/" + "?w=majority"
 
     def getClient(self):
         return pymongo.MongoClient(self.connection_string)
 
-    def get_databases(self):
-        client = self.getClient()
-        databases = client.list_database_names()
-        for item in databases:
-            print (item)
-
     def get_cards_for_board(self):
         client = self.getClient()
-        to_do_app_database = client["To_Do_App"]
+        to_do_app_database = client[self.default_database]
         to_do_items_collection = to_do_app_database['ToDoItems']
         cards= {}
         for item in to_do_items_collection.find({"board_name" : self.board_name}):
@@ -43,7 +37,7 @@ class Mongo:
 
     def add_item(self, title):
         client = self.getClient()
-        to_do_app_database = client["To_Do_App"]
+        to_do_app_database = client[self.default_database]
         to_do_items_collection = to_do_app_database['ToDoItems']
 
         item_to_add = {
@@ -57,7 +51,7 @@ class Mongo:
 
     def move_to_list(self, card_id, list_name):
         client = self.getClient()
-        to_do_app_database = client["To_Do_App"]
+        to_do_app_database = client[self.default_database]
         to_do_items_collection = to_do_app_database['ToDoItems']
 
         item_to_update = {
@@ -81,7 +75,8 @@ class Mongo:
 
     def delete_date_for_board(self, board_name):
         client = self.getClient()
-        to_do_app_database = client["To_Do_App"]
+        to_do_app_database = client[self.default_database]
         to_do_items_collection = to_do_app_database['ToDoItems']
         to_do_items_collection.delete_many({"board_name" : board_name})
+        to_do_items_collection.drop()
         return

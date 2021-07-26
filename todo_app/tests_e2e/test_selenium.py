@@ -40,7 +40,8 @@ def test_app():
     load_dotenv(file_path, override=True)
 
     os.environ['BOARD_NAME'] = "TestBoard"
-
+    os.environ['DEFAULT_DATABASE'] = "E2ETest"
+ 
     # construct the new application
     application = app.create_app()
     # start the app in its own thread.
