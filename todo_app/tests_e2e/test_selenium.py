@@ -55,7 +55,7 @@ def test_app():
 
 def delete_test_data(board_name):
     mongo = Mongo()
-    mongo.delete_date_for_board(board_name)
+    mongo.delete_data_for_board(board_name)
 
 def test_task_journey(driver, test_app):
     driver.get('http://localhost:5000/')
