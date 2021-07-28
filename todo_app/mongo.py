@@ -18,23 +18,16 @@ class Mongo:
         client = pymongo.MongoClient(self.connection_string)
         to_do_app_database = client[self.default_database]
         to_do_items_collection = to_do_app_database['ToDoItems']
-        return to_do_items_collection
+        return to_do_items_collection    
 
-    def get_cards_for_board(self):
+    def get_todo_items(self):
         to_do_items_collection = self.getToDoCollection()
-        cards= {}
+        cards= []
         for item in to_do_items_collection.find({"board_name" : self.board_name}):
             formatted_date = item["date_last_activity"].strftime("%Y-%m-%dT%H:%M:%S.%fZ")
             card = TodoCard(item["list_name"], item["_id"], item["name"], formatted_date)
-            cards[item["_id"]]=card        
+            cards.append(card)
         return cards
-
-    def get_todo_items(self):
-        todo_items=[]
-        cards = self.get_cards_for_board()
-        for card_key in cards:
-            todo_items.append(cards[card_key])
-        return todo_items
 
     def add_item(self, title):
         to_do_items_collection = self.getToDoCollection()

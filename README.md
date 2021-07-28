@@ -88,3 +88,5 @@ docker run --env-file ./.env my-test-image todo_app/tests_e2e
 To run the travis encyption use:
 travis encrypt <KEYNAME>=<KEYVALUE> maheshpatelhome / DevOps-Course_Starter
 then add that to the secure section of .travis.yml
+
+The application is dependent on a mongo DB server hosted in Atlas.
