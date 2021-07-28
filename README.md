@@ -52,21 +52,9 @@ You should see output similar to the following:
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 
-
-This application is dependent on Trello, an account for that will need to be set up
-Environment variables will need to be setup for:
-API_KEY
-API_TOKEN
-BOARD_NAME
-TO_DO_LIST_ID
-DONE_LIST_ID
-DOING_LIST_ID
-
-
 To run the tests run the following commands from the directory where the code has ben checked out to
 poetry run pytest todo_app\tests_e2e
 poetry run pytest todo_app\tests  
-
 
 
 To run the app in a VM via Vagrant use the "vagrant up" command, this will launch a VM with all the dependencies installed and the application can be accessed on http://localhost:5000
@@ -100,3 +88,5 @@ docker run --env-file ./.env my-test-image todo_app/tests_e2e
 To run the travis encyption use:
 travis encrypt <KEYNAME>=<KEYVALUE> maheshpatelhome / DevOps-Course_Starter
 then add that to the secure section of .travis.yml
+
+The application is dependent on a mongo DB server hosted in Atlas.

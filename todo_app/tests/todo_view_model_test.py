@@ -1,18 +1,18 @@
 from todo_app.todo_view_model import ToDoViewModel
-from todo_app.trello_card  import TrelloCard
+from todo_app.todo_card  import TodoCard
 import pytest
 from datetime import date, datetime, timedelta
 
 @pytest.fixture
 def items_setup():
     items = [
-        TrelloCard("To Do", 1, 1, "To Do Item 1", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("To Do", 1, 2, "To Do Item 2", "2020-12-01T00:00:00.000Z" ),
-        TrelloCard("To Do", 1, 3, "To Do Item 3", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("Doing", 2, 4, "Doing Item 4", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("Doing", 2, 5, "Doing Item 5", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("Done", 3, 6, "Done Item 6", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("Random, should only be returned by items", 4, 7, "Random Item 7", "2020-12-01T00:00:00.000Z")
+        TodoCard("To Do", 1, "To Do Item 1", "2020-12-01T00:00:00.000Z"),
+        TodoCard("To Do", 2, "To Do Item 2", "2020-12-01T00:00:00.000Z" ),
+        TodoCard("To Do", 3, "To Do Item 3", "2020-12-01T00:00:00.000Z"),
+        TodoCard("Doing", 4, "Doing Item 4", "2020-12-01T00:00:00.000Z"),
+        TodoCard("Doing", 5, "Doing Item 5", "2020-12-01T00:00:00.000Z"),
+        TodoCard("Done", 6, "Done Item 6", "2020-12-01T00:00:00.000Z"),
+        TodoCard("Random, should only be returned by items", 7, "Random Item 7", "2020-12-01T00:00:00.000Z")
     ]
     return items
 
@@ -24,18 +24,18 @@ def empty_items_setup():
 @pytest.fixture
 def done_items_with_dates_setup():
     items = [
-        TrelloCard("To Do", 1, 1, "To Do Item 1", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("To Do", 1, 2, "To Do Item 2", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("To Do", 1, 3, "To Do Item 3", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("Doing", 2, 4, "Doing Item 4", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("Doing", 2, 5, "Doing Item 5", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("Done", 3, 6, "Done Item 6", "2020-12-01T00:00:00.000Z"),
-        TrelloCard("Done", 3, 7, "Done Item 7", "2020-12-02T00:00:00.000Z"),
-        TrelloCard("Done", 3, 8, "Done Item 8", "2020-12-02T00:00:00.000Z"),
-        TrelloCard("Done", 3, 9, "Done Item 9", "2020-12-03T00:00:00.000Z"),
-        TrelloCard("Done", 3, 10, "Done Item 10", "2020-12-03T00:00:00.000Z"),
-        TrelloCard("Done", 3, 11, "Done Item 11", "2020-12-03T00:00:00.000Z"),
-        TrelloCard("Done", 3, 12, "Done Item 12", "2020-12-02T00:00:00.000Z")
+        TodoCard("To Do", 1, "To Do Item 1", "2020-12-01T00:00:00.000Z"),
+        TodoCard("To Do", 2, "To Do Item 2", "2020-12-01T00:00:00.000Z"),
+        TodoCard("To Do", 3, "To Do Item 3", "2020-12-01T00:00:00.000Z"),
+        TodoCard("Doing", 4, "Doing Item 4", "2020-12-01T00:00:00.000Z"),
+        TodoCard("Doing", 5, "Doing Item 5", "2020-12-01T00:00:00.000Z"),
+        TodoCard("Done", 6, "Done Item 6", "2020-12-01T00:00:00.000Z"),
+        TodoCard("Done", 7, "Done Item 7", "2020-12-02T00:00:00.000Z"),
+        TodoCard("Done", 8, "Done Item 8", "2020-12-02T00:00:00.000Z"),
+        TodoCard("Done", 9, "Done Item 9", "2020-12-03T00:00:00.000Z"),
+        TodoCard("Done", 10, "Done Item 10", "2020-12-03T00:00:00.000Z"),
+        TodoCard("Done", 11, "Done Item 11", "2020-12-03T00:00:00.000Z"),
+        TodoCard("Done", 12, "Done Item 12", "2020-12-02T00:00:00.000Z")
     ]
     return items
 
