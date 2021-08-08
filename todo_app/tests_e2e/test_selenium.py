@@ -44,6 +44,7 @@ def test_app():
  
     # construct the new application
     application = app.create_app()
+    application.config["LOGIN_DISABLED"] = True
     # start the app in its own thread.
     thread = Thread(target=lambda: application.run(use_reloader=False))
     thread.daemon = True
