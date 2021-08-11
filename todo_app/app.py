@@ -1,10 +1,10 @@
-from flask import Flask, render_template, send_from_directory, request, redirect
+from flask import Flask, render_template, send_from_directory, request, redirect, flash
 from oauthlib import oauth2
 from todo_app.data.session_items  import add_item, get_item, save_item
 from todo_app.todo_view_model import ToDoViewModel
 from todo_app.mongo import Mongo
 from datetime import date, timedelta
-from flask_login import LoginManager, login_required, login_user
+from flask_login import LoginManager, login_required, login_user, current_user
 from oauthlib.oauth2 import WebApplicationClient
 from todo_app.user import User
 import requests
@@ -23,16 +23,14 @@ def create_app():
 
     @login_manager.unauthorized_handler
     def unauthenticated():
-        print("unauthorized_handler")
         client = WebApplicationClient(client_id) 
         uri = client.prepare_request_uri('https://github.com/login/oauth/authorize')
         return redirect(uri)    
         
     @login_manager.user_loader
     def load_user(user_id):
-        return  User(user_id)
+        return User(user_id)
     
-
     @app.route('/login/callback', methods=['GET', 'POST'])
     def callback():
         code = request.values['code']
@@ -44,7 +42,6 @@ def create_app():
         git_user = requests.get(git_user_request[0], headers=git_user_request[1]).json()
         git_login = User(git_user['login'])
         login_user(git_login)
-
         return redirect('/')
 
     @app.route('/')
@@ -54,7 +51,7 @@ def create_app():
         to_do_list = mongo.get_todo_items() 
         yesterday = date.today() - timedelta(days = 1) 
 
-        to_do_view_model = ToDoViewModel(to_do_list, yesterday)
+        to_do_view_model = ToDoViewModel(to_do_list, yesterday, user_has_write_permissions())
         if (len(to_do_view_model.done_items) < 5):
             return render_template('index.html', view_model=to_do_view_model, show_all=True)
         else:
@@ -63,30 +60,42 @@ def create_app():
     @app.route('/', methods=['POST'])
     @login_required
     def add_to_do_item():
-        mongo = Mongo()
-        mongo.add_item(request.form['todoTitle'])
+        if (user_has_write_permissions() == False):
+            flash("You do not have permissions to do this action")
+        else:
+            mongo = Mongo()
+            mongo.add_item(request.form['todoTitle'])
         return redirect("/")
 
     @app.route('/doing_item/<card_id>')
     @login_required
     def doing_item(card_id):
-        mongo = Mongo()
-        mongo.move_to_doing(card_id)
+        if (user_has_write_permissions() == False):
+            flash("You do not have permissions to do this action")
+        else:
+            mongo = Mongo()
+            mongo.move_to_doing(card_id)
         return redirect("/")
 
     @app.route('/todo_item/<card_id>')
     @login_required
     def todo_item(card_id):
-        mongo = Mongo()
-        mongo.move_to_todo(card_id)
+        if (user_has_write_permissions() == False):
+            flash("You do not have permissions to do this action")
+        else:
+            mongo = Mongo()
+            mongo.move_to_todo(card_id)
         
         return redirect("/")
 
     @app.route('/done_item/<card_id>')
     @login_required
     def done_item(card_id):
-        mongo = Mongo()
-        mongo.move_to_done(card_id)
+        if (user_has_write_permissions() == False):
+            flash("You do not have permissions to do this action")
+        else:
+            mongo = Mongo()
+            mongo.move_to_done(card_id)
         
         return redirect("/")
 
@@ -98,7 +107,7 @@ def create_app():
           
         yesterday = date.today() - timedelta(days = 1) 
 
-        to_do_view_model = ToDoViewModel(to_do_list, yesterday)
+        to_do_view_model = ToDoViewModel(to_do_list, yesterday, user_has_write_permissions())
         to_do_view_model.show_all_done = True
         return render_template('index.html', view_model=to_do_view_model, show_all=True)
 
@@ -110,10 +119,13 @@ def create_app():
           
         yesterday = date.today() - timedelta(days = 1) 
 
-        to_do_view_model = ToDoViewModel(to_do_list, yesterday)
+        to_do_view_model = ToDoViewModel(to_do_list, yesterday, user_has_write_permissions())
         to_do_view_model.show_all_done = False
         return render_template('index.html', view_model=to_do_view_model, show_all=False)
     
+    def user_has_write_permissions():
+        return current_user.role == "WRITER"
+
     if __name__ == '__main__':
         app.run()
 

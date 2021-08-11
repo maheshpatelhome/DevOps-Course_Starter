@@ -7,6 +7,16 @@
   <p class="lead">Just another to-do app.</p>
 </div>
 
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li style="color:red">{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <div class="row">
   <div class="col-md-12">
     <h2>To Do Items</h2>
@@ -22,8 +32,13 @@
         <tr>
           <td style="width:70%">{{item.title}}</td>
           <td style="text-align: center;">
-            <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
-            <a href={{ url_for("done_item", card_id=item.id)}} class="btn btn-info">Done</a>
+            {% if view_model.user_is_writer %}
+              <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
+              <a href={{ url_for("done_item", card_id=item.id)}} class="btn btn-info">Done</a>
+            {% else %}
+              <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info disabled">Doing</a>
+              <a href={{ url_for("done_item", card_id=item.id)}} class="btn btn-info disabled">Done</a> 
+            {% endif %}
           </td>
         </tr>
         {% endfor %}
@@ -43,8 +58,13 @@
         <tr>
           <td style="width:70%">{{item.title}}</td>
           <td style="text-align: center;">
-            <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
-            <a href={{ url_for("done_item", card_id=item.id)}} class="btn btn-info">Done</a>
+            {% if view_model.user_is_writer %}
+              <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
+              <a href={{ url_for("done_item", card_id=item.id)}} class="btn btn-info">Done</a>
+            {% else %}
+              <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info disabled">To Do</a>
+              <a href={{ url_for("done_item", card_id=item.id)}} class="btn btn-info disabled">Done</a>
+            {% endif %}
           </td>
         </tr>
         {% endfor %}
@@ -66,8 +86,13 @@
         <tr>
           <td style="width:70%">{{item.title}}</td>
           <td style="text-align: center;">
-            <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
-            <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
+            {% if view_model.user_is_writer %}
+              <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
+              <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
+            {% else %}
+              <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info disabled">To Do</a>
+              <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info disabled">Doing</a>
+            {% endif %}
           </td>
         </tr>
         {% endfor %}
@@ -87,8 +112,13 @@
         <tr>
           <td style="width:70%">{{item.title}}</td>
           <td style="text-align: center;">
-            <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
-            <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
+            {% if view_model.user_is_writer %}
+              <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info">To Do</a>
+              <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info">Doing</a>
+            {% else %}
+              <a href={{ url_for("todo_item", card_id=item.id)}} class="btn btn-info disabled">To Do</a>
+              <a href={{ url_for("doing_item", card_id=item.id)}} class="btn btn-info disabled">Doing</a>
+            {% endif %}
           </td>
         </tr>
         {% endfor %}
@@ -105,8 +135,12 @@
         <label> New To-Do Item</label>
         <input class="form-control" type="text" name="todoTitle" required>
       </div>
-      <div class="col-md-9 form-group row">
-        <button type="submit" class="btn btn-success" id="save_new">Save</button>
+      <div class="col-md-9 form-group row"></div>
+        {% if view_model.user_is_writer %}
+          <button type="submit" class="btn btn-success" id="save_new">Save</button>
+        {% else %}
+          <button type="submit" class="btn btn-success" id="save_new" disabled>Save</button>
+        {% endif %}
       </div>
     </form>
   </div>

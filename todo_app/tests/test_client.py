@@ -3,10 +3,11 @@ import requests
 from todo_app import app
 from todo_app.todo_card import TodoCard
 from todo_app.mongo import Mongo
+from todo_app.tests.test_user import TestUser
+from flask_login import login_manager
 from flask import request
 from datetime import datetime
 from dotenv import find_dotenv, load_dotenv
-
 
 @pytest.fixture
 def client():
@@ -16,7 +17,7 @@ def client():
  
     # Create the new app.
     test_app = app.create_app()
-    test_app.config["LOGIN_DISABLED"] = True
+    test_app.config["LOGIN_DISABLED"] = True 
 
     # Use the app to create a test_client that can be used in our tests.
     with test_app.test_client() as client:
@@ -41,8 +42,12 @@ def mock_get_requests_2(monkeypatch):
         to_do_items.append(card3)
         return to_do_items
 
+    def get_test_user():
+        return TestUser()
+
     monkeypatch.setattr(Mongo, "get_todo_items", get_mocked_to_do_list)
     monkeypatch.setattr(requests, "get",  get_mocked_request_get)
+    monkeypatch.setattr(login_manager, "AnonymousUserMixin", get_test_user)
 
 def test_index_page_2(mock_get_requests_2, client):
     response = client.get('/')

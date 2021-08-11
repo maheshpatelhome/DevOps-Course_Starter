@@ -8,6 +8,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions 
 from selenium.webdriver.common.by import By
 from todo_app.mongo import Mongo
+from todo_app.tests.test_user import TestUser
+from flask_login import login_manager
 
 @pytest.fixture()
 def driver():
@@ -32,19 +34,21 @@ def driver():
 
     with webdriver.Chrome('./chromedriver', options=opts) as driver:
         yield driver
-    
+
 @pytest.fixture()
-def test_app():
+def test_app(monkeypatch):
     
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
 
     os.environ['BOARD_NAME'] = "TestBoard"
     os.environ['DEFAULT_DATABASE'] = "E2ETest"
- 
+    monkeypatch.setattr(login_manager, "AnonymousUserMixin", get_test_user)
+    
     # construct the new application
     application = app.create_app()
     application.config["LOGIN_DISABLED"] = True
+
     # start the app in its own thread.
     thread = Thread(target=lambda: application.run(use_reloader=False))
     thread.daemon = True
@@ -53,6 +57,9 @@ def test_app():
     # Tear Down
     thread.join(1)
     delete_test_data("TestBoard")
+
+def get_test_user():
+    return TestUser()
 
 def delete_test_data(board_name):
     mongo = Mongo()

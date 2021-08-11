@@ -40,12 +40,12 @@ def done_items_with_dates_setup():
     return items
 
 def test_items_returns_correct_data(items_setup):
-    sut = ToDoViewModel(items_setup, date.today())
+    sut = ToDoViewModel(items_setup, date.today(), True)
     assert len(sut.items) == 7
     assert sut.items == items_setup
 
 def test_to_do_items_returns_correct_data(items_setup):
-    sut = ToDoViewModel(items_setup, date.today())
+    sut = ToDoViewModel(items_setup, date.today(), True)
     result = sut.to_do_items
     assert len(result) == 3
     assert result[0] == items_setup[0]
@@ -53,41 +53,41 @@ def test_to_do_items_returns_correct_data(items_setup):
     assert result[2] == items_setup[2]
 
 def test_doing_items_returns_correct_data(items_setup):
-    sut = ToDoViewModel(items_setup, date.today())
+    sut = ToDoViewModel(items_setup, date.today(), True)
     result = sut.doing_items
     assert len(result) == 2
     assert result[0] == items_setup[3]
     assert result[1] == items_setup[4]
 
 def test_done_items_returns_correct_data_when(items_setup):
-    sut = ToDoViewModel(items_setup, date.today())
+    sut = ToDoViewModel(items_setup, date.today(), True)
     result = sut.done_items
     assert len(result) == 1
     assert result[0] == items_setup[5]
 
 def test_items_returns_correct_data_when_items_is_empty(empty_items_setup):
-    sut = ToDoViewModel(empty_items_setup, date.today())
+    sut = ToDoViewModel(empty_items_setup, date.today(), True)
     assert len(sut.items) == 0
     
 def test_to_do_items_returns_correct_data_when_items_is_empty(empty_items_setup):
-    sut = ToDoViewModel(empty_items_setup, date.today())
+    sut = ToDoViewModel(empty_items_setup, date.today(), True)
     result = sut.to_do_items
     assert len(result) == 0
     
 def test_doing_items_returns_correct_data_when_items_is_empty(empty_items_setup):
-    sut = ToDoViewModel(empty_items_setup, date.today())
+    sut = ToDoViewModel(empty_items_setup, date.today(), True)
     result = sut.doing_items
     assert len(result) == 0
     
 def test_done_items_returns_correct_data_when_items_is_empty(empty_items_setup):
-    sut = ToDoViewModel(empty_items_setup, date.today())
+    sut = ToDoViewModel(empty_items_setup, date.today(), True)
     result = sut.done_items
     assert len(result) == 0
     
 def test_recent_done_items_returns_correct_data(done_items_with_dates_setup):
     todays_date_for_test = "2020-12-03T00:00:00.000Z"
     yesterdays_date_for_test = datetime.strptime(todays_date_for_test, "%Y-%m-%dT%H:%M:%S.%fZ").date() - timedelta(days = 1)
-    sut = ToDoViewModel(done_items_with_dates_setup, yesterdays_date_for_test)
+    sut = ToDoViewModel(done_items_with_dates_setup, yesterdays_date_for_test, True)
     result = sut.recent_done_items
     assert len(result) == 3
     assert result[0] == done_items_with_dates_setup[8]
@@ -97,7 +97,7 @@ def test_recent_done_items_returns_correct_data(done_items_with_dates_setup):
 def test_older_done_items_returns_correct_data(done_items_with_dates_setup):
     todays_date_for_test = "2020-12-03T00:00:00.000Z"
     yesterdays_date_for_test = datetime.strptime(todays_date_for_test, "%Y-%m-%dT%H:%M:%S.%fZ").date() - timedelta(days = 1)
-    sut = ToDoViewModel(done_items_with_dates_setup, yesterdays_date_for_test)
+    sut = ToDoViewModel(done_items_with_dates_setup, yesterdays_date_for_test, True)
     result = sut.older_done_items
     assert len(result) == 4
     assert result[0] == done_items_with_dates_setup[5]
