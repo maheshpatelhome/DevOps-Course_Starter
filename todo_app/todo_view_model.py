@@ -1,7 +1,8 @@
 class ToDoViewModel:
-    def __init__(self, items, recent_date):
+    def __init__(self, items, recent_date, user_is_writer = False):
         self._items = items
         self.recent_date = recent_date 
+        self._user_is_writer = user_is_writer
 
     @property
     def items(self):
@@ -47,7 +48,12 @@ class ToDoViewModel:
             if (item.last_modified <= self.recent_date):
                 self._older_items.append(item)
         return self._older_items
-        
+    
+    @property
+    def user_is_writer(self):
+        return self._user_is_writer
+
+
     def determine_done_items(self):
         self._done_items=[]
         for item in self._items:

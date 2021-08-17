@@ -60,13 +60,13 @@ poetry run pytest todo_app\tests
 To run the app in a VM via Vagrant use the "vagrant up" command, this will launch a VM with all the dependencies installed and the application can be accessed on http://localhost:5000
 
 
-Run all docker commnads in powershell
+Run all docker commands in powershell
 To build this app for Docker production use:
 docker build --target production --tag todo-app:prod .
 
-To run the docker container for production use:
-docker run -p 9000:8005 -e PORT=8005 --env-file .env todo-app:prod
-the application will be available by browsing to http://localhost:9000
+To run the docker container for production use (port needs to be 5000 because of callback from github oauth):
+docker run -p 5000:8005 -e PORT=8005 --env-file .env todo-app:prod
+the application will be available by browsing to http://localhost:5000
 
 
 To build this app for Docker development use:
@@ -90,3 +90,6 @@ travis encrypt <KEYNAME>=<KEYVALUE> maheshpatelhome / DevOps-Course_Starter
 then add that to the secure section of .travis.yml
 
 The application is dependent on a mongo DB server hosted in Atlas.
+
+The application uses OAuth2 from Github, the application user will need a github login and will be directed to github to enter their credentials.
+If the application needs to be deployed then the that will need to be created/registered on GitHub including a callback url and application home url  
