@@ -22,7 +22,7 @@ def driver():
     # to stop usb error
     #https://stackoverflow.com/questions/64927909/failed-to-read-descriptor-from-node-connection-a-device-attached-to-the-system
     opts = webdriver.ChromeOptions()
-    #opts.add_argument('--headless')
+    opts.add_argument('--headless')
     opts.add_experimental_option('excludeSwitches', ['enable-logging'])
     opts.add_argument('--no-sandbox')
     #opts.add_argument('--disable-dev-shm-usage')
