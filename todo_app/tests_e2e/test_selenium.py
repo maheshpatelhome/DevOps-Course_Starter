@@ -22,7 +22,7 @@ def driver():
     # to stop usb error
     #https://stackoverflow.com/questions/64927909/failed-to-read-descriptor-from-node-connection-a-device-attached-to-the-system
     opts = webdriver.ChromeOptions()
-    opts.add_argument('--headless')
+    #opts.add_argument('--headless')
     opts.add_experimental_option('excludeSwitches', ['enable-logging'])
     opts.add_argument('--no-sandbox')
     #opts.add_argument('--disable-dev-shm-usage')
@@ -73,6 +73,10 @@ def test_task_journey(driver, test_app):
 def test_can_create_new_to_do_item(driver, test_app):
     new_card_name = "New Selenium Test Item"
     driver.get('http://localhost:5000/')
+    
+    element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
+    WebDriverWait(driver, 60).until(element_present)
+
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
@@ -96,6 +100,10 @@ def test_can_create_new_to_do_item(driver, test_app):
 def test_can_create_new_to_do_item_and_start_it(driver, test_app):
     new_card_name = "New Selenium Test Item"
     driver.get('http://localhost:5000/')
+    
+    element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
+    WebDriverWait(driver, 60).until(element_present)
+
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
@@ -125,6 +133,10 @@ def test_can_create_new_to_do_item_and_start_it(driver, test_app):
 def test_can_create_new_to_do_item_and_complete_it(driver, test_app):
     new_card_name = "New Selenium Test Item"
     driver.get('http://localhost:5000/')
+
+    element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
+    WebDriverWait(driver, 60).until(element_present)
+
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
@@ -154,6 +166,10 @@ def test_can_create_new_to_do_item_and_complete_it(driver, test_app):
 def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
     new_card_name = "New Selenium Test Item"
     driver.get('http://localhost:5000/')
+    
+    element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
+    WebDriverWait(driver, 60).until(element_present)
+
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
@@ -217,6 +233,10 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 def test_can_create_new_to_do_item_start_it_and_complete_it(driver, test_app):
     new_card_name = "New Selenium Test Item"
     driver.get('http://localhost:5000/')
+
+    element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
+    WebDriverWait(driver, 60).until(element_present)
+
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
@@ -280,6 +300,10 @@ def test_can_create_new_to_do_item_start_it_and_complete_it(driver, test_app):
 def test_can_create_new_to_do_item_start_it_complete_it_and_restart_it(driver, test_app):
     new_card_name = "New Selenium Test Item"
     driver.get('http://localhost:5000/')
+    
+    element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
+    WebDriverWait(driver, 60).until(element_present)
+
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
