@@ -9,10 +9,9 @@ jobs:
       - docker build --target test --tag my-test-image .
       - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
       - docker run --env-file ./.env.test my-test-image ./todo_app/tests/test_client.py
-      # - docker run -e USER_NAME -e PASSWORD -e MONGO_URL -e DEFAULT_DATABASE -e BOARD_NAME -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
       - docker run -e COSMOS_CONNECTION_STRING -e DEFAULT_DATABASE -e BOARD_NAME -e FLASK_APP -e FLASK_ENV -e SECRET_KEY my-test-image  todo_app/tests_e2e
     - stage: deploy
-      if: (branch = main) AND (type = push) 
+      # if: (branch = main) AND (type = push) 
       script:
       - echo $DOCKER_PASSWORD | docker login --username "$DOCKER_USERNAME" --password-stdin
       - docker build --target production --tag "$DOCKER_USERNAME"/todo-app-prod:"$TRAVIS_COMMIT" .
