@@ -4,8 +4,10 @@
 FROM python:3.8.12-buster as base
 
 #install poetry
-RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
+RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python - && chown -R root:root /root
 ENV PATH="${PATH}:/root/.poetry/bin"
+
+
 
 # copy across pyproject.toml and poetry.lock so the dependencies can be installed
 RUN mkdir /app
