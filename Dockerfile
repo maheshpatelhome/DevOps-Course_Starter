@@ -1,4 +1,7 @@
-FROM python:3.8 as base
+#FROM python:3.8 as base
+#FROM python:3.8.12-alpine as base
+#FROM python:3.8.12-slim-buster as base
+FROM python:3.8.12-buster as base
 
 #install poetry
 RUN curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python -
