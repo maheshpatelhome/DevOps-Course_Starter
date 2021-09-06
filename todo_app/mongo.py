@@ -7,12 +7,8 @@ from datetime import datetime
 
 class Mongo:
     def __init__(self): 
-        #self.user_name=os.getenv('USER_NAME')
-        #self.password=os.getenv('PASSWORD')
-        #self.mongo_url=os.getenv('MONGO_URL')
         self.default_database=os.getenv('DEFAULT_DATABASE')
         self.board_name=os.getenv('BOARD_NAME')
-        #self.connection_string = "mongodb+srv://" + self.user_name + ":" + self.password + "@" + self.mongo_url + "/" + "?w=majority"
         self.connection_string = os.getenv('COSMOS_CONNECTION_STRING')
 
     def getToDoCollection(self):
