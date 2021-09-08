@@ -6,7 +6,6 @@ jobs:
   include:
     - stage: test
       script:
-      - bash webhook.sh
       - docker build --target test --tag my-test-image .
       - docker run my-test-image ./todo_app/tests/todo_view_model_test.py
       - docker run --env-file ./.env.test my-test-image ./todo_app/tests/test_client.py
@@ -24,3 +23,4 @@ jobs:
       - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com 
       - docker push registry.heroku.com/maheshs-todo-app/web
       - heroku container:release web -a maheshs-todo-app
+      - bash webhook.sh
