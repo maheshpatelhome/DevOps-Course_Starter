@@ -93,3 +93,17 @@ The application is dependent on a mongo DB server hosted in Atlas.
 
 The application uses OAuth2 from Github, the application user will need a github login and will be directed to github to enter their credentials.
 If the application needs to be deployed then the that will need to be created/registered on GitHub including a callback url and application home url  
+
+
+The application can use Mongo or Azure COSMOS DB
+For Mongo the following env variables need to be set:
+USER_NAME
+PASSWORD
+MONGO_URL
+DEFAULT_DATABASE
+BOARD_NAME
+
+For Cosmos the following env variables need to be set:
+DEFAULT_DATABASE
+BOARD_NAME
+COSMOS_CONNECTION_STRING
