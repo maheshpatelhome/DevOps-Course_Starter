@@ -28,6 +28,5 @@ jobs:
       - docker tag $DOCKER_USERNAME"/todo-app-prod:latest" registry.heroku.com/maheshs-todo-app/web
       - docker login --username=_ --password=$HEROKU_API_KEY registry.heroku.com 
       - docker push registry.heroku.com/maheshs-todo-app/web
-      # - heroku container:release web -a maheshs-todo-app
       - terraform apply -var="prefix=test" -var="GITHUB_CLIENT_ID=$GITHUB_CLIENT_ID" -var="GITHUB_SECRET=$GITHUB_SECRET" -auto-approve
       - curl -dH -X POST "$(terraform output -raw cd_webhook)"
