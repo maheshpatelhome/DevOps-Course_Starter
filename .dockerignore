@@ -27,3 +27,8 @@ Vagrantfile
 .vscode
 
 chromedriver.exe
+
+### terraform files ###
+.terraform
+.terraform.lock.hcl
+terraform.tfstate

@@ -133,3 +133,8 @@ chromedriver.*
 
 ### log file for starting up app in a VM ###
 logs.txt
+
+### terraform files ###
+.terraform
+.terraform.*
+terraform.tfstate
