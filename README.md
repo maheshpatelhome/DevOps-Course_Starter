@@ -107,3 +107,5 @@ For Cosmos the following env variables need to be set:
 DEFAULT_DATABASE
 BOARD_NAME
 COSMOS_CONNECTION_STRING
+
+
