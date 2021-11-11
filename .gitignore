@@ -133,3 +133,6 @@ chromedriver.*
 
 ### log file for starting up app in a VM ###
 logs.txt
+
+### application log file ###
+ToDoApp.log
