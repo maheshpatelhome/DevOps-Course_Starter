@@ -18,7 +18,12 @@ def create_app():
     app = Flask(__name__)
 
     #logging.basicConfig(filename='ToDoApp.log', level=logging.INFO, format='%(asctime)s - %(module)s - %(message)s')
-    logging.basicConfig(filename='ToDoApp.log', format='%(asctime)s - %(module)s - %(message)s')
+    logging.basicConfig(
+        format='%(asctime)s - %(module)s - %(message)s',
+        handlers=[
+            logging.FileHandler("ToDoApp.log"),
+            logging.StreamHandler()
+        ])
     logger = logging.getLogger(__name__)
     logging.getLogger().setLevel(os.getenv('LOG_LEVEL'))
     
