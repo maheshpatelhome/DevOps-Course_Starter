@@ -7,12 +7,32 @@ from datetime import date, timedelta
 from flask_login import LoginManager, login_required, login_user, current_user
 from oauthlib.oauth2 import WebApplicationClient
 from todo_app.user import User
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
+
 import requests
 import os
-
+import logging
 
 def create_app():
     app = Flask(__name__)
+
+    #logging.basicConfig(filename='ToDoApp.log', level=logging.INFO, format='%(asctime)s - %(module)s - %(message)s')
+    logging.basicConfig(
+        format='%(asctime)s - %(module)s - %(message)s',
+        handlers=[
+            logging.FileHandler("ToDoApp.log"),
+            logging.StreamHandler()
+        ])
+    logger = logging.getLogger(__name__)
+    logging.getLogger().setLevel(os.getenv('LOG_LEVEL'))
+    
+    loggly_token = os.getenv('LOGGLY_TOKEN')
+    if loggly_token is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{loggly_token}/tag/todo-app')
+        handler.setFormatter( Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+    )
+    app.logger.addHandler(handler)
 
     client_id=os.getenv('GITHUB_CLIENT_ID')
     client_secret=os.getenv('GITHUB_SECRET')
@@ -47,6 +67,7 @@ def create_app():
     @app.route('/')
     @login_required
     def index():
+        logger.info("Getting ToDo data")
         mongo = Mongo()
         to_do_list = mongo.get_todo_items() 
         yesterday = date.today() - timedelta(days = 1) 
@@ -62,7 +83,9 @@ def create_app():
     def add_to_do_item():
         if (user_has_write_permissions() == False):
             flash("You do not have permissions to do this action")
+            logger.warn("User does not have rights to add ToDo data")
         else:
+            logger.info("Adding ToDo Item %s", request.form['todoTitle'])
             mongo = Mongo()
             mongo.add_item(request.form['todoTitle'])
         return redirect("/")
@@ -72,7 +95,9 @@ def create_app():
     def doing_item(card_id):
         if (user_has_write_permissions() == False):
             flash("You do not have permissions to do this action")
+            logger.warn("User does not have rights to move ToDo item to Doing list")
         else:
+            logger.info("Moving Card ID %s to Doing list", card_id)
             mongo = Mongo()
             mongo.move_to_doing(card_id)
         return redirect("/")
@@ -82,7 +107,9 @@ def create_app():
     def todo_item(card_id):
         if (user_has_write_permissions() == False):
             flash("You do not have permissions to do this action")
+            logger.warn("User does not have rights to move ToDo data to ToDo list")
         else:
+            logger.info("Moving Card ID %s to ToDo list", card_id)
             mongo = Mongo()
             mongo.move_to_todo(card_id)
         
@@ -93,7 +120,9 @@ def create_app():
     def done_item(card_id):
         if (user_has_write_permissions() == False):
             flash("You do not have permissions to do this action")
+            logger.warn("User does not have rights to move ToDo data to Done list")
         else:
+            logger.info("Moving Card ID %s to Done list", card_id)
             mongo = Mongo()
             mongo.move_to_done(card_id)
         

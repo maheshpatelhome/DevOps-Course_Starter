@@ -138,3 +138,6 @@ logs.txt
 .terraform
 .terraform.*
 terraform.tfstate
+=======
+### application log file ###
+ToDoApp.log
