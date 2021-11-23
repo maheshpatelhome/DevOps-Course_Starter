@@ -88,7 +88,7 @@ def test_can_create_new_to_do_item(driver, test_app):
     driver.get('http://localhost:5000/')
     
     element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
@@ -96,7 +96,7 @@ def test_can_create_new_to_do_item(driver, test_app):
     save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -111,28 +111,29 @@ def test_can_create_new_to_do_item(driver, test_app):
     assert to_do_list_table_cell.text == new_card_name
     
 def test_can_create_new_to_do_item_and_start_it(driver, test_app):
+    print("Can create and start")
     new_card_name = "New Selenium Test Item"
     driver.get('http://localhost:5000/')
     
     element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
     save_button = driver.find_element_by_id("save_new")
     save_button.click()
-
+    print("Saving")
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
-    print("Item added")
+    print("Item found")
     doing_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Doing']")
     doing_button.click()
 
-    print("Item added")
+    print("item doing")
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
-
+    WebDriverWait(driver, 10).until(element_present)
+    print("Waiting")
     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
     done_list_table_rows = driver.find_element_by_xpath("//table[@id='done-table']/tbody").find_elements_by_tag_name("tr")
@@ -150,7 +151,7 @@ def test_can_create_new_to_do_item_and_complete_it(driver, test_app):
     driver.get('http://localhost:5000/')
 
     element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
@@ -158,13 +159,13 @@ def test_can_create_new_to_do_item_and_complete_it(driver, test_app):
     save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     done_button = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody/tr[1]/td[2]/a[text()='Done']")
     done_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -183,7 +184,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
     driver.get('http://localhost:5000/')
     
     element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     new_to_do_textbox = driver.find_element_by_name("todoTitle")
     new_to_do_textbox.send_keys(new_card_name)
@@ -191,7 +192,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
     save_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -209,7 +210,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
     doing_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -227,10 +228,10 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
     done_button.click()
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
-    WebDriverWait(driver, 60).until(element_present)
+    WebDriverWait(driver, 10).until(element_present)
 
     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -250,7 +251,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     driver.get('http://localhost:5000/')
 
 #     element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     new_to_do_textbox = driver.find_element_by_name("todoTitle")
 #     new_to_do_textbox.send_keys(new_card_name)
@@ -258,7 +259,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     save_button.click()
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
 #     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -276,7 +277,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     doing_button.click()
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
 #     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -294,10 +295,10 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     done_button.click()
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
 #     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -317,7 +318,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     driver.get('http://localhost:5000/')
     
 #     element_present = expected_conditions.presence_of_element_located((By.NAME, 'todoTitle'))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     new_to_do_textbox = driver.find_element_by_name("todoTitle")
 #     new_to_do_textbox.send_keys(new_card_name)
@@ -325,7 +326,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     save_button.click()
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='to-do-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
 #     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -343,7 +344,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     doing_button.click()
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
 #     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -361,10 +362,10 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     done_button.click()
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='done-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
 #     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
@@ -382,7 +383,7 @@ def test_can_create_new_to_do_item_start_it_complete_it(driver, test_app):
 #     doing_button_in_done_table.click()
 
 #     element_present = expected_conditions.presence_of_element_located((By.XPATH, "//table[@id='doing-table']/tbody/tr[1]"))
-#     WebDriverWait(driver, 60).until(element_present)
+#     WebDriverWait(driver, 10).until(element_present)
 
 #     to_do_list_table_rows = driver.find_element_by_xpath("//table[@id='to-do-table']/tbody").find_elements_by_tag_name("tr")
 #     doing_list_table_rows = driver.find_element_by_xpath("//table[@id='doing-table']/tbody").find_elements_by_tag_name("tr")
